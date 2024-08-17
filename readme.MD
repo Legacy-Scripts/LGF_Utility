@@ -13,7 +13,7 @@
     --[[NOTIFICATION ]]
 ```
 
---[[
+```lua
     TriggerEvent('LGF_UI:SendNotification', {
         id = "progress1",
         title = "Processing",
@@ -31,4 +31,4 @@
         duration = 5000,
         position = 'top-left'
     })
-]]
+```
