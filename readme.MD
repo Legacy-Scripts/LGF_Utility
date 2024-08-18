@@ -1,34 +1,38 @@
+## LGF_UI API
+
+### Context Menu
+
 ```lua
 --[[REGISTER CONTEXT MENU EXPORTS]]
-    exports['LGF_UI']:ShowContextMenu(menuID, show)
-    exports['LGF_UI']:IsUiOpen()
-    exports['LGF_UI']:RegisterContextMenu(menuID, menuTitle, data)
-    exports['LGF_UI']:CloseContext(menuID)
-    exports['LGF_UI']:ForceCloseContext()
-    exports['LGF_UI']:CanOpenContext()
+exports['LGF_UI']:ShowContextMenu(menuID, show)
+exports['LGF_UI']:IsUiOpen()
+exports['LGF_UI']:RegisterContextMenu(menuID, menuTitle, data)
+exports['LGF_UI']:CloseContext(menuID)
+exports['LGF_UI']:ForceCloseContext()
+exports['LGF_UI']:CanOpenContext()
 
-    --[[STATE BAG]] == "return true or false"
-    LocalPlayer.state.ContextOpen
+--[[STATE BAG CONTEXT]] -- Returns true or false
+LocalPlayer.state.ContextOpen
 
-    --[[NOTIFICATION ]]
-```
+--[[NOTIFICATION EXPORTS]]
+-- Send a notification
+exports['LGF_UI']:SendNotification(data)
 
-```lua
-    TriggerEvent('LGF_UI:SendNotification', {
-        id = "progress1",
-        title = "Processing",
-        message = "Your request is being processed.",
-        icon = "progress",
-        duration = 5000,
-        position = 'top-right'
-    })
+--[[NOTIFICATION EVENT]]
+-- Trigger a notification event on the client side
+TriggerClientEvent('LGF_UI:SendNotification', target, data)
 
-    exports['LGF_UI']:SendNotification({
-        id = "example1",
-        title = "Hello",
-        message = 'This is a notification example.',
-        icon = 'success',
-        duration = 5000,
-        position = 'top-left'
-    })
+-- Trigger a notification event on the server side
+TriggerEvent('LGF_UI:SendNotification', data)
+
+
+--[[TEXTUI EXPORTS]]
+-- Open the text UI with specific data
+exports['LGF_UI']:OpenTextUI(data)
+
+-- Get the state of the text UI (whether it is currently open or not)
+exports['LGF_UI']:GetStateTextUI()
+
+-- Hide the text UI
+exports['LGF_UI']:HideTextUI()
 ```
