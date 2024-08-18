@@ -3,7 +3,7 @@
 ### Context Menu
 
 ```lua
---[[REGISTER CONTEXT MENU EXPORTS]]
+
 exports['LGF_UI']:ShowContextMenu(menuID, show)
 exports['LGF_UI']:IsUiOpen()
 exports['LGF_UI']:RegisterContextMenu(menuID, menuTitle, data)
@@ -13,20 +13,23 @@ exports['LGF_UI']:CanOpenContext()
 
 --[[STATE BAG CONTEXT]] -- Returns true or false
 LocalPlayer.state.ContextOpen
+```
+### Noification System
 
---[[NOTIFICATION EXPORTS]]
--- Send a notification
+```lua
+-- Send a notification with exports
 exports['LGF_UI']:SendNotification(data)
 
---[[NOTIFICATION EVENT]]
 -- Trigger a notification event on the client side
 TriggerClientEvent('LGF_UI:SendNotification', target, data)
 
 -- Trigger a notification event on the server side
 TriggerEvent('LGF_UI:SendNotification', data)
+```
 
+### TextUI
 
---[[TEXTUI EXPORTS]]
+```lua
 -- Open the text UI with specific data
 exports['LGF_UI']:OpenTextUI(data)
 
