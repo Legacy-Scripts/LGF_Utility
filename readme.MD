@@ -1,6 +1,8 @@
 ## LGF_UI API
 
-![CONTEXT / TEXTUI / NOTIFICATION](https://cdn.discordapp.com/attachments/1217899422604595300/1274777105577541775/Aggiungi_un_titolo_1.png?ex=66c37c32&is=66c22ab2&hm=7ed77a5d874a79d0dd755ff2e03e9bacdad55a09db8b0005579e320e19ce9185&)
+<div style="width: 300px;">
+  <img src="https://cdn.discordapp.com/attachments/1217899422604595300/1274777105577541775/Aggiungi_un_titolo_1.png?ex=66c37c32&is=66c22ab2&hm=7ed77a5d874a79d0dd755ff2e03e9bacdad55a09db8b0005579e320e19ce9185&" alt="CONTEXT / TEXTUI / NOTIFICATION" style="width: 100%;"/>
+</div>
 
 
 ### Context Menu
