@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <td><img src="https://cdn.discordapp.com/attachments/1217899422604595300/1274779710689382631/Aggiungi_un_titolo_2.png?ex=66c37e9f&is=66c22d1f&hm=f24b562bff9138f711459241343bc3da6a9c230400abf3f10edd37e7f01c2c5a&" alt="CONTEXT / TEXTUI / NOTIFICATION" width="150"/></td>
+    <td><img src="https://cdn.discordapp.com/attachments/1217899422604595300/1274779710689382631/Aggiungi_un_titolo_2.png?ex=66c37e9f&is=66c22d1f&hm=f24b562bff9138f711459241343bc3da6a9c230400abf3f10edd37e7f01c2c5a&" alt="CONTEXT / TEXTUI / NOTIFICATION" width="350" heigth="300"/></td>
   </tr>
 </table>
 
