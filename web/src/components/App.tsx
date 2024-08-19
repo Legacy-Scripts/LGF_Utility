@@ -6,6 +6,7 @@ import ContextMenu from "./ContextMenu";
 import NotificationComponent from "./Notification";
 import TextUIComponent from "./TextUI";
 import DialogComponent from "./Dialog"; 
+import ProgressBar from "./ProgressBar";
 import "./ContextMenu.scss";
 import "./TextUI.scss";
 import "./Dialog.scss";
@@ -57,6 +58,7 @@ const App: React.FC = () => {
       <NotificationComponent /> 
       <TextUIComponent /> 
       <DialogComponent /> 
+      <ProgressBar /> 
     </>
   );
 };
