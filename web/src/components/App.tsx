@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import { isEnvBrowser } from "../utils/misc";
 import ContextMenu from "./ContextMenu";
-import NotificationComponent from "./Notification"; 
+import NotificationComponent from "./Notification";
+import TextUIComponent from "./TextUI";
+import DialogComponent from "./Dialog"; 
 import "./ContextMenu.scss";
+import "./TextUI.scss";
+import "./Dialog.scss";
 
 const App: React.FC = () => {
   const [contextVisible, setContextVisible] = useState(false);
@@ -51,6 +55,8 @@ const App: React.FC = () => {
         />
       )}
       <NotificationComponent /> 
+      <TextUIComponent /> 
+      <DialogComponent /> 
     </>
   );
 };

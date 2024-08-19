@@ -1,51 +1,114 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import styles from "./Notification.module.scss";
-import { Box, Text, Loader } from "@mantine/core";
+import { Box, Text, Loader, Flex } from "@mantine/core";
 import { CiSquareCheck } from "react-icons/ci";
 import { MdOutlineCancelPresentation } from "react-icons/md";
+import styles from "./Notification.module.scss";
 
 interface NotificationData {
   id: string;
   title?: string;
   message: string;
   icon?: "success" | "error" | "progress" | "line";
-  duration?: number; // Duration in milliseconds
+  duration?: number;
   position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 
 const NotificationComponent: React.FC = () => {
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
-  const [visibleNotifications, setVisibleNotifications] = useState<Set<string>>(new Set());
-  const [removingNotifications, setRemovingNotifications] = useState<Set<string>>(new Set());
-  const [notificationHeights, setNotificationHeights] = useState<Record<string, number>>({});
+  const [visibleNotifications, setVisibleNotifications] = useState<Set<string>>(
+    new Set()
+  );
+  const [removingNotifications, setRemovingNotifications] = useState<
+    Set<string>
+  >(new Set());
   const timers = useRef<Record<string, NodeJS.Timeout>>({});
-  const notificationRefs = useRef<Record<string, HTMLDivElement>>({});
 
   const showNotification = (notification: Omit<NotificationData, "id">) => {
     const id = `notif-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     const newNotification = { ...notification, id };
 
-    setNotifications(prevNotifications => [...prevNotifications, newNotification]);
-    setVisibleNotifications(prev => new Set(prev).add(id));
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      newNotification,
+    ]);
+    setVisibleNotifications((prev) => new Set(prev).add(id));
 
     if (newNotification.duration) {
       timers.current[id] = setTimeout(() => {
-        setRemovingNotifications(prev => new Set(prev).add(id));
-        setTimeout(() => removeNotification(id), 500); // Delay for slide-out animation
+        setRemovingNotifications((prev) => new Set(prev).add(id));
+        setTimeout(() => removeNotification(id), 500);
       }, newNotification.duration);
     }
   };
 
+  // useEffect(() => {
+
+  //   window.postMessage({
+  //     action: "SendNotification",
+  //     id: "notif-success",
+  //     title: "Success",
+  //     message: "Your changes have been saved successfully!",
+  //     icon: "success",
+  //     duration: 10000000,
+  //     position: "top-right",
+  //   });
+
+
+  //     window.postMessage({
+  //       action: "SendNotification",
+  //       id: "notif-error",
+  //       title: "Error",
+  //       message: "Failed to save changes. Please try again.",
+  //       icon: "error",
+  //       duration: 10000000,
+  //       position: "top-left",
+  //     });
+
+
+  //     window.postMessage({
+  //       action: "SendNotification",
+  //       id: "notif-progress",
+  //       title: "Processing",
+  //       message: "Your request is being processed.",
+  //       icon: "progress",
+  //       duration: 10000000,
+  //       position: "bottom-right",
+  //     });
+
+  //     window.postMessage({
+  //       action: "SendNotification",
+  //       id: "notif-warning",
+  //       title: "Warning",
+  //       message: "Your session is about to expire.",
+  //       icon: "line",
+  //       duration: 10000000,
+  //       position: "bottom-left",
+  //     });
+
+
+
+  //     window.postMessage({
+  //       action: "SendNotification",
+  //       id: "notif-info",
+  //       title: "Information",
+  //       message: "New update available.",
+  //       icon: "line",
+  //       duration: 10000000,
+  //       position: "top-right",
+  //     });
+
+  // }, []);
+
   const removeNotification = (idToRemove: string) => {
-    setNotifications(prevNotifications =>
-      prevNotifications.filter(notification => notification.id !== idToRemove)
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter((notification) => notification.id !== idToRemove)
     );
-    setVisibleNotifications(prev => {
+    setVisibleNotifications((prev) => {
       const updated = new Set(prev);
       updated.delete(idToRemove);
       return updated;
     });
-    setRemovingNotifications(prev => {
+    setRemovingNotifications((prev) => {
       const updated = new Set(prev);
       updated.delete(idToRemove);
       return updated;
@@ -66,64 +129,49 @@ const NotificationComponent: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    // Update notification heights when notifications are rendered or updated
-    const updateHeights = () => {
-      const updatedHeights: Record<string, number> = {};
-      Object.keys(notificationRefs.current).forEach(id => {
-        const el = notificationRefs.current[id];
-        if (el) {
-          updatedHeights[id] = el.getBoundingClientRect().height;
-        }
-      });
-      setNotificationHeights(updatedHeights);
-    };
-
-    updateHeights();
-  }, [notifications]);
-
-  const getOffsetStyle = useCallback((position: string, index: number): React.CSSProperties => {
-    const gap = 20; 
-    const baseOffset = 10; 
-
-    let cumulativeOffset = baseOffset;
-    for (let i = 0; i < index; i++) {
-      const notificationId = notifications[i].id;
-      const height = notificationHeights[notificationId] || 70; 
-      cumulativeOffset += height + gap;
-    }
-
+  const getFlexStyle = useCallback((position: string): React.CSSProperties => {
     switch (position) {
       case "top-left":
-        return { top: `${cumulativeOffset}px`, left: "10px", position: "absolute" };
+        return { top: "10px", left: "10px" };
       case "top-right":
-        return { top: `${cumulativeOffset}px`, right: "10px", position: "absolute" };
+        return { top: "10px", right: "10px" };
       case "bottom-left":
-        return { bottom: `${cumulativeOffset}px`, left: "10px", position: "absolute" };
+        return { bottom: "10px", left: "10px" };
       case "bottom-right":
-        return { bottom: `${cumulativeOffset}px`, right: "10px", position: "absolute" };
+        return { bottom: "10px", right: "10px" };
       default:
         return {};
     }
-  }, [notificationHeights, notifications]);
+  }, []);
 
   return (
     <div className={styles.container}>
-      {["top-left", "top-right", "bottom-left", "bottom-right"].map(position => {
-        const notificationsForPosition = notifications.filter(n => n.position === position);
-        return (
-          <div key={position} className={styles[position]}>
-            {notificationsForPosition.map((notification, index) => {
-              const style = getOffsetStyle(position, index);
-
-              return (
-                <Box 
+      {["top-left", "top-right", "bottom-left", "bottom-right"].map(
+        (position) => {
+          const notificationsForPosition = notifications.filter(
+            (n) => n.position === position
+          );
+          return (
+            <Flex
+              key={position}
+              direction="column"
+              align={position.includes("right") ? "flex-end" : "flex-start"}
+              style={{ position: "absolute", ...getFlexStyle(position) }}
+            >
+              {notificationsForPosition.map((notification) => (
+                <Box
                   key={notification.id}
-                  ref={el => { if (el) notificationRefs.current[notification.id] = el; }}
                   className={`${styles.notification}
-                    ${visibleNotifications.has(notification.id) ? styles["slide-in"] : ""}
-                    ${removingNotifications.has(notification.id) ? styles["slide-out"] : ""}`}
-                  style={style}
+                  ${
+                    visibleNotifications.has(notification.id)
+                      ? styles["slide-in"]
+                      : ""
+                  }
+                  ${
+                    removingNotifications.has(notification.id)
+                      ? styles["slide-out"]
+                      : ""
+                  }`}
                   onAnimationEnd={() => {
                     if (removingNotifications.has(notification.id)) {
                       removeNotification(notification.id);
@@ -131,14 +179,21 @@ const NotificationComponent: React.FC = () => {
                   }}
                 >
                   {notification.icon === "progress" ? (
-                    <Loader size="sm" color="violet" style={{ marginRight: 12 }} />
+                    <Loader
+                      size="sm"
+                      color="violet"
+                      style={{ marginRight: 12 }}
+                    />
                   ) : notification.icon === "success" ? (
                     <div style={{ marginRight: 12 }}>
                       <CiSquareCheck size="2.0rem" color="#12b886" />
                     </div>
                   ) : notification.icon === "error" ? (
                     <div style={{ marginRight: 12 }}>
-                      <MdOutlineCancelPresentation size="2.0rem" color="#f03e3e" />
+                      <MdOutlineCancelPresentation
+                        size="2.0rem"
+                        color="#f03e3e"
+                      />
                     </div>
                   ) : notification.icon === "line" ? (
                     <div
@@ -161,11 +216,11 @@ const NotificationComponent: React.FC = () => {
                     <Text fz="md">{notification.message}</Text>
                   </div>
                 </Box>
-              );
-            })}
-          </div>
-        );
-      })}
+              ))}
+            </Flex>
+          );
+        }
+      )}
     </div>
   );
 };

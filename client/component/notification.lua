@@ -64,13 +64,3 @@ exports('SendNotification', showNotification)
     })
 ]]
 
-RegisterCommand('notifica', function()
-    TriggerEvent('LGF_UI:SendNotification', {
-        id = "progress1",
-        title = "Processing",
-        message = "Your request is being processed.",
-        icon = "progress",
-        duration = 5000,
-        position = 'top-right'
-    })
-end)

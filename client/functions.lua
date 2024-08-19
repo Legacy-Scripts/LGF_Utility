@@ -8,7 +8,6 @@ local function CanOpenContext()
       not _G.isUIOpen
 end
 
-
 function NUI:showNui(action, menuID, shouldShow)
   SetNuiFocus(shouldShow, shouldShow)
   SendNUIMessage({ action = action, data = { menuID = menuID, visible = shouldShow } })

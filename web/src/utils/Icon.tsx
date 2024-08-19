@@ -610,6 +610,6 @@ export const getIcon = (iconName: string): IconDefinition => {
     case "yen-sign":
       return faYenSign;
     default:
-      return faCoffee; // Default icon
+      return faCoffee; 
   }
 };

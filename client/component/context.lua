@@ -51,7 +51,6 @@ RegisterNuiCallback('LGF_UI.GetContextData', function(data, cb)
     end
 end)
 
-
 RegisterNuiCallback('menu:ItemSelected', function(data, cb)
     local menu = CONTEXT_MENUS[data.menuID]
     if menu then
