@@ -33,9 +33,18 @@ TriggerEvent('LGF_UI:SendNotification', data)
 
 ## TextUI
 
-<img src="https://cdn.discordapp.com/attachments/1200838616679727195/1275205843771457556/image.png?ex=66c50b7d&is=66c3b9fd&hm=af37267a780110939b41bcb5084ce79905685164b3a9099a508ae90bbd303312&" alt="Textui Whit Bind" width="300" height="300"/>
+## TextUI Examples
 
-<img src="https://cdn.discordapp.com/attachments/1200838616679727195/1275206210173272307/image.png?ex=66c50bd4&is=66c3ba54&hm=6134e0c7a3026b79893a510794d3f02b14e8d078331b1aef63970ecef5a74c0c&" alt="Textui Whit Bind" width="300" height="300"/>
+<table>
+  <tr>
+    <td>
+      <img src="https://cdn.discordapp.com/attachments/1200838616679727195/1275205843771457556/image.png?ex=66c50b7d&is=66c3b9fd&hm=af37267a780110939b41bcb5084ce79905685164b3a9099a508ae90bbd303312&" alt="Textui Whit Bind" width="300" height="300"/>
+    </td>
+    <td>
+      <img src="https://cdn.discordapp.com/attachments/1200838616679727195/1275206210173272307/image.png?ex=66c50bd4&is=66c3ba54&hm=6134e0c7a3026b79893a510794d3f02b14e8d078331b1aef63970ecef5a74c0c&" alt="Textui Whit Bind" width="300" height="300"/>
+    </td>
+  </tr>
+</table>
 
 
 ```lua
