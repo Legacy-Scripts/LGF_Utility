@@ -12,8 +12,6 @@ shared_scripts {
 
 }
 
-client_scripts('client/components/target.lua')
-
 client_scripts {
   'client/**/*',
 }
