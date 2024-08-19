@@ -18,16 +18,16 @@ exports['LGF_UI']:CanOpenContext()
 --[[STATE BAG CONTEXT]] -- Returns true or false
 LocalPlayer.state.ContextOpen
 ```
-## Noification System
+## Notification System
 
 ```lua
--- Send a notification with exports
+-- CLIENT SIDE
 exports['LGF_UI']:SendNotification(data)
 
--- Trigger a notification event on the client side
+-- SERVER SIDE
 TriggerClientEvent('LGF_UI:SendNotification', target, data)
 
--- Trigger a notification event on the server side
+-- CLIENT SIDE
 TriggerEvent('LGF_UI:SendNotification', data)
 ```
 
