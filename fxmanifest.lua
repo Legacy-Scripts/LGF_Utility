@@ -1,15 +1,11 @@
 fx_version 'cerulean'
-
 game 'gta5'
-
-version '1.1.0'
-
+version '1.0.0'
 lua54 'yes'
 
 shared_scripts {
   'shared/*.lua',
-  '@ox_lib/init.lua',
-
+  '@ox_lib/init.lua', -- Used only for test the Textui Whit a points
 }
 
 client_scripts {
@@ -26,7 +22,5 @@ files {
   'web/build/index.html',
   'web/build/**/*',
 }
-
-ox_libs { 'locale' }
 
 ui_page 'web/build/index.html'
