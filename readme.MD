@@ -54,3 +54,20 @@ exports['LGF_UI']:RegisterDialog(data)
 -- Close Specific Dialog
 exports['LGF_UI']:CloseDialog(dialogID)
 ```
+
+
+### ProgressBar 
+
+```lua
+-- Register a Progressbar whit params
+exports['LGF_UI']:CreateProgressBar()
+
+-- Disable Current progress
+exports['LGF_UI']:DisableProgressBar()
+
+-- Get State of Curren ProgressBar (return true or false)
+exports['LGF_UI']:GetStateProgress()
+
+```
+
+
