@@ -1,17 +1,17 @@
--- Vehicle data
+--[[REFERENCE TABLE WITH VEHICLE FOR CONTEXT]]
 local Vehicle = {
-    { model = 'kuruma',   Label = 'Kuruma Blindata', Fuel = 24, color = 'Black',  type = 'Sedan',    maxSpeed = 120 },
-    { model = 'sultan',   Label = 'Sultan',          Fuel = 54, color = 'Silver', type = 'Sport',    maxSpeed = 150 },
-    { model = 'infernus', Label = 'Infernus',        Fuel = 34, color = 'Red',    type = 'Super',    maxSpeed = 220 },
-    { model = 'comet',    Label = 'Comet',           Fuel = 74, color = 'Blue',   type = 'Sport',    maxSpeed = 180 },
-    { model = 'felon',    Label = 'Felon',           Fuel = 24, color = 'Green',  type = 'Coupe',    maxSpeed = 160 },
-    { model = 't20',      Label = 'T20',             Fuel = 54, color = 'Yellow', type = 'Super',    maxSpeed = 230 },
-    { model = 'voltic',   Label = 'Voltic',          Fuel = 34, color = 'White',  type = 'Electric', maxSpeed = 140 },
-    { model = 'banshee',  Label = 'Banshee',         Fuel = 74, color = 'Gray',   type = 'Sport',    maxSpeed = 200 },
-    { model = 'turismor', Label = 'Turismo R',       Fuel = 24, color = 'Purple', type = 'Super',    maxSpeed = 250 },
-    { model = 'ztype',    Label = 'Z-Type',          Fuel = 54, color = 'Orange', type = 'Classic',  maxSpeed = 170 },
-    { model = 'exemplar', Label = 'Exemplar',        Fuel = 34, color = 'Brown',  type = 'Coupe',    maxSpeed = 180 },
-    { model = 'osiris',   Label = 'Osiris',          Fuel = 74, color = 'Pink',   type = 'Super',    maxSpeed = 240 },
+    { model = 'kuruma',   Label = 'Kuruma',    Fuel = 24, color = 'Black',  type = 'Sedan',    maxSpeed = 120 },
+    { model = 'sultan',   Label = 'Sultan',    Fuel = 54, color = 'Silver', type = 'Sport',    maxSpeed = 150 },
+    { model = 'infernus', Label = 'Infernus',  Fuel = 34, color = 'Red',    type = 'Super',    maxSpeed = 220 },
+    { model = 'comet',    Label = 'Comet',     Fuel = 74, color = 'Blue',   type = 'Sport',    maxSpeed = 180 },
+    { model = 'felon',    Label = 'Felon',     Fuel = 24, color = 'Green',  type = 'Coupe',    maxSpeed = 160 },
+    { model = 't20',      Label = 'T20',       Fuel = 54, color = 'Yellow', type = 'Super',    maxSpeed = 230 },
+    { model = 'voltic',   Label = 'Voltic',    Fuel = 34, color = 'White',  type = 'Electric', maxSpeed = 140 },
+    { model = 'banshee',  Label = 'Banshee',   Fuel = 74, color = 'Gray',   type = 'Sport',    maxSpeed = 200 },
+    { model = 'turismor', Label = 'Turismo R', Fuel = 24, color = 'Purple', type = 'Super',    maxSpeed = 250 },
+    { model = 'ztype',    Label = 'Z-Type',    Fuel = 54, color = 'Orange', type = 'Classic',  maxSpeed = 170 },
+    { model = 'exemplar', Label = 'Exemplar',  Fuel = 34, color = 'Brown',  type = 'Coupe',    maxSpeed = 180 },
+    { model = 'osiris',   Label = 'Osiris',    Fuel = 74, color = 'Pink',   type = 'Super',    maxSpeed = 240 },
 }
 
 
@@ -179,9 +179,9 @@ function OpenDialogTest()
         cards = {
             {
                 title = 'Criminal',
-                message =
-                'The criminal lifestyle is characterized by activities outside the law. Those who choose this path often engage in illegal activities such as theft, smuggling, and various forms of organized crime. Embracing a criminal life typically involves high risks and the need for secrecy. If you are interested in acquiring items associated with this lifestyle, you will be provided with resources that may assist you in navigating and thriving within this world of crime. Choose wisely, as each decision has its consequences.',
+                message = 'The criminal lifestyle is characterized by activities outside the law. Those who choose this path often engage in illegal activities such as theft, smuggling, and various forms of organized crime. Embracing a criminal life typically involves high risks and the need for secrecy. If you are interested in acquiring items associated with this lifestyle, you will be provided with resources that may assist you in navigating and thriving within this world of crime. Choose wisely, as each decision has its consequences.',
                 actionLabel = 'Criminal',
+                image = "https://cdn.discordapp.com/attachments/1273666294599913524/1273668480801177622/thumb-1920-1343705.png?ex=66c410f5&is=66c2bf75&hm=bba586457be139e24bfed0fe4b1004de17b50cda885f20c3bccc6ebaa114aa6c&",
                 onAction = function()
                     local items = LifeStyle.Criminal
                     print('Criminal Life Selected')
@@ -221,8 +221,7 @@ function OpenDialogTest()
             },
             {
                 title = 'Medical',
-                message =
-                'The medical lifestyle focuses on health and emergency care. Individuals in this role are dedicated to diagnosing, treating, and caring for patients in various medical settings. Whether working in hospitals, clinics, or emergency services, medical professionals play a crucial role in maintaining public health and providing critical care. By choosing the medical lifestyle, you will receive items and resources that are essential for performing medical duties and supporting your role in healthcare.',
+                message ='The medical lifestyle focuses on health and emergency care. Individuals in this role are dedicated to diagnosing, treating, and caring for patients in various medical settings. Whether working in hospitals, clinics, or emergency services, medical professionals play a crucial role in maintaining public health and providing critical care. By choosing the medical lifestyle, you will receive items and resources that are essential for performing medical duties and supporting your role in healthcare.',
                 actionLabel = 'Medic',
                 onAction = function()
                     print('Medical Life Selected')

@@ -12,6 +12,8 @@ shared_scripts {
 
 }
 
+client_scripts('client/components/target.lua')
+
 client_scripts {
   'client/**/*',
 }
@@ -30,4 +32,3 @@ files {
 ox_libs { 'locale' }
 
 ui_page 'web/build/index.html'
-

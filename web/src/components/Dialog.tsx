@@ -6,6 +6,7 @@ import {
   Center,
   useMantineTheme,
   Loader,
+  Image, 
 } from "@mantine/core";
 import { fetchNui } from "../utils/fetchNui";
 import { MdNavigateNext } from "react-icons/md";
@@ -18,6 +19,7 @@ interface CardData {
   actionCloseLabel?: string;
   hasOnAction?: boolean;
   hasOnClose?: boolean;
+  image?: string; 
 }
 
 interface DialogData {
@@ -134,7 +136,16 @@ const CenteredContainer: React.FC = () => {
         <Text size="xl" weight={700} align="center" mb="lg">
           {dialog.title}
         </Text>
-        <div>
+        <div style={{ textAlign: "center" }}>
+          {currentCard.image && (
+            <Image
+              src={currentCard.image}
+              alt={currentCard.title}
+              fit="cover" 
+              radius="md" 
+              style={{ marginBottom: "16px", maxHeight: "200px" }} 
+            />
+          )}
           <Text size="lg" weight={500} mb="md">
             {currentCard.title}
           </Text>
