@@ -34,7 +34,7 @@ TriggerEvent('LGF_UI:SendNotification', data)
 ## TextUI
 
 ![Textui Whit Bind](https://cdn.discordapp.com/attachments/1200838616679727195/1275204568422289448/image.png?ex=66c50a4d&is=66c3b8cd&hm=389f9eb8f0e8d6e182b7e33170cb736608d891f5df2ee18c02bc4620fd2872f4&)
-![Textui Whit Bind](https://cdn.discordapp.com/attachments/1200838616679727195/1275204844675797095/image.png?ex=66c50a8f&is=66c3b90f&hm=3b0241b7429c6c38b6ffc20e4cecd39b1f6022d2f76ea466032938042d84c9f7&)
+![Textui Whit Bind](https://cdn.discordapp.com/attachments/1200838616679727195/1275205370935115920/loader.png?ex=66c50b0c&is=66c3b98c&hm=affdbd40d87a095ba3c561ad41a4a702fd5988b94129d1de183434a3b1bc4974&)
 
 ```lua
 -- Open the text UI with specific data
