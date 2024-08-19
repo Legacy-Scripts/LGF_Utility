@@ -4,7 +4,7 @@
 
 ## LGF_UI API
 
-### Context Menu
+## Context Menu
 
 ```lua
 
@@ -18,7 +18,7 @@ exports['LGF_UI']:CanOpenContext()
 --[[STATE BAG CONTEXT]] -- Returns true or false
 LocalPlayer.state.ContextOpen
 ```
-### Noification System
+## Noification System
 
 ```lua
 -- Send a notification with exports
@@ -31,7 +31,7 @@ TriggerClientEvent('LGF_UI:SendNotification', target, data)
 TriggerEvent('LGF_UI:SendNotification', data)
 ```
 
-### TextUI
+## TextUI
 
 ```lua
 -- Open the text UI with specific data
@@ -45,7 +45,7 @@ exports['LGF_UI']:HideTextUI()
 ```
 
 
-### Dialog 
+## Dialog 
 
 ```lua
 -- Register a Dialog with params
@@ -56,7 +56,7 @@ exports['LGF_UI']:CloseDialog(dialogID)
 ```
 
 
-### ProgressBar 
+## ProgressBar 
 
 ```lua
 -- Register a Progressbar whit params
