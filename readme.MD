@@ -1,3 +1,7 @@
+  ![](https://img.shields.io/github/downloads/ENT510/LGF_UI/total?logo=github)
+  ![](https://img.shields.io/github/v/release/ENT510/LGF_UI?logo=github)
+
+
 ## LGF_UI API
 
 ### Context Menu
