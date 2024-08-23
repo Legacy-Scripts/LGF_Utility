@@ -16,9 +16,10 @@ const ProgressComponents: React.FC = () => {
   const [opened, setOpened] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+
   const showProgressBar = useCallback((data: ProgressData) => {
     setProgressData(data);
-    setProgressValue(0); // Inizia da 0
+    setProgressValue(0);
     setStartTime(Date.now());
     setOpened(true);
   }, []);
@@ -53,7 +54,7 @@ const ProgressComponents: React.FC = () => {
       const updateProgress = () => {
         if (startTime !== null) {
           const elapsedTime = Date.now() - startTime;
-          const progress = Math.min(100, (elapsedTime / duration) * 100); 
+          const progress = Math.min(100, (elapsedTime / duration) * 100);
           setProgressValue(progress);
 
           if (elapsedTime >= duration) {

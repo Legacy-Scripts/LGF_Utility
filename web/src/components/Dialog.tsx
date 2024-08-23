@@ -94,11 +94,17 @@ const CenteredContainer: React.FC = () => {
       }
     };
 
+
+
+
+
     window.addEventListener("message", handleMessage);
     return () => {
       window.removeEventListener("message", handleMessage);
     };
   }, [showDialog, hideDialog]);
+
+  
 
   if (!isVisible || !dialog) {
     return null;

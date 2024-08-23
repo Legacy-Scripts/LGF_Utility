@@ -5,8 +5,9 @@ import { isEnvBrowser } from "../utils/misc";
 import ContextMenu from "./ContextMenu";
 import NotificationComponent from "./Notification";
 import TextUIComponent from "./TextUI";
-import DialogComponent from "./Dialog"; 
+import DialogComponent from "./Dialog";
 import ProgressBar from "./ProgressBar";
+import InputComponent from "./Input";
 import "./ContextMenu.scss";
 import "./TextUI.scss";
 import "./Dialog.scss";
@@ -23,24 +24,32 @@ const App: React.FC = () => {
     }
   );
 
-  const handleClose = () => {
-    setContextVisible(false);
+  const handleCloseContextMenu = () => {
     if (!isEnvBrowser()) {
-      fetchNui("ui:Close", {
+      fetchNui("UI:CloseContext", {
         name: "CreateMenuContext",
         menuID: currentMenuID,
+      }).then(() => {
+      }).catch((error) => {
+        console.error("Failed to close context menu:", error);
       });
     }
   };
-
   useEffect(() => {
     const keyHandler = (e: KeyboardEvent) => {
       if (contextVisible && e.code === "Escape") {
-        handleClose();
+        if (!isEnvBrowser()) {
+          if (contextVisible) {
+            handleCloseContextMenu()
+          }
+        } else {
+          
+        }
       }
     };
 
     window.addEventListener("keydown", keyHandler);
+
     return () => {
       window.removeEventListener("keydown", keyHandler);
     };
@@ -48,17 +57,18 @@ const App: React.FC = () => {
 
   return (
     <>
-      {currentMenuID && (
+      {contextVisible && currentMenuID && (
         <ContextMenu
           visible={contextVisible}
           menuID={currentMenuID}
-          onClose={handleClose}
+          onClose={handleCloseContextMenu}
         />
       )}
-      <NotificationComponent /> 
-      <TextUIComponent /> 
-      <DialogComponent /> 
-      <ProgressBar /> 
+      <NotificationComponent />
+      <TextUIComponent />
+      <DialogComponent />
+      <ProgressBar />
+      <InputComponent />
     </>
   );
 };

@@ -62,5 +62,24 @@ RegisterNuiCallback('menu:ItemSelected', function(data, cb)
     end
 end)
 
+RegisterNUICallback('GetWorldCoords', function(data, cb)
+    local screenX = data.screenX
+    local screenY = data.screenY
+
+    local worldVector, normalVector = GetWorldCoordFromScreenCoord(screenX, screenY)
+
+    local result = {
+        x = worldVector.x,
+        y = worldVector.y,
+        z = worldVector.z,
+        normalX = normalVector.x,
+        normalY = normalVector.y,
+        normalZ = normalVector.z
+    }
+
+    -- Restituisci il risultato al frontend
+    cb(result)
+end)
+
 
 exports('RegisterContextMenu', registerMenu)

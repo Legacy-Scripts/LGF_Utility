@@ -17,17 +17,22 @@ function NUI:showNui(action, menuID, shouldShow)
   end
 end
 
-RegisterNuiCallback('ui:Close', function(data, cb)
-  NUI:showNui('CreateMenuContext', data.menuID, false)
-  if data.name == 'CreateMenuContext' then
-    _G.isUIOpen = false
-  end
+RegisterNuiCallback('UI:CloseContext', function(data, cb)
+  SetNuiFocus(false, false)
+  SendNUIMessage({ action = "CreateMenuContext", data = { menuID = data.menuID, visible = false } })
+
+  _G.isUIOpen = false
+  LocalPlayer.state:set('ContextOpen', false, true)
   cb(true)
 end)
 
 function NUI:isUIOpen()
   return _G.isUIOpen
 end
+
+RegisterCommand('chiud', function()
+  NUI:showNui('CreateMenuContext', "main_vehicles_garage", false)
+end)
 
 exports('ShowContextMenu', function(menuID, shouldShow) return NUI:showNui('CreateMenuContext', menuID, shouldShow) end)
 

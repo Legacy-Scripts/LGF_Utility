@@ -18,9 +18,9 @@ server_scripts {
 }
 
 files {
-  -- 'locales/*.json',
   'web/build/index.html',
   'web/build/**/*',
 }
 
 ui_page 'web/build/index.html'
+

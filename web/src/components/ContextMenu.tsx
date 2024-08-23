@@ -11,15 +11,62 @@ import {
   Tooltip,
   useMantineTheme,
   RingProgress,
-  Card,
+  Progress,
   Badge,
   Flex,
+  Divider,
+  Title,
+  Grid,
+  Col,
+  Avatar,
+  Center,
+  ThemeIcon,
 } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
 import { fetchNui } from "../utils/fetchNui";
 import { getIcon } from "../utils/Icon";
-import "./ContextMenu.scss";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LuFuel } from "react-icons/lu";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+
+const mapCenter: [number, number] = [-119.43, 58.84];
+const latPr100 = 1.421;
+
+function gameToMap(x: number, y: number): [number, number] {
+  const mappedCoordinates: [number, number] = [
+    mapCenter[0] + (latPr100 / 100) * y,
+    mapCenter[1] + (latPr100 / 100) * x,
+  ];
+  console.log("Converted coordinates:", mappedCoordinates);
+  return mappedCoordinates;
+}
+
+
+const ScrollBarContainer = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1;
+  padding-bottom: 1rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+
+const MapContainerWrapper = styled.div`
+  height: 600px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+`;
+
 
 interface ContextMenuItem {
   label: string;
@@ -27,14 +74,24 @@ interface ContextMenuItem {
   icon: string;
   disabled?: boolean;
   progress?: number;
+  ringProgress?: number;
   colorProgress?: string;
   labelButton?: string;
+  image?: string;
+  badge?: string;
+  actionButton?: boolean;
   metadata?: {
     title?: string;
     iconTitle?: string;
     metadataValue?: Record<string, any>;
   };
   onSelect?: (args: any) => void;
+  map?: {
+    center: [number, number];
+    zoom: number;
+    markers: { position: [number, number]; popupText: string }[];
+    mapLayer?: string;
+  };
 }
 
 interface ContextMenuProps {
@@ -47,6 +104,25 @@ interface MenuData {
   title: string;
   items: ContextMenuItem[];
 }
+
+
+const CenterMapOnLoad: React.FC<{
+  center: [number, number];
+  zoom: number;
+  bounds: L.LatLngBounds;
+}> = ({ center, zoom, bounds }) => {
+  const map = useMap();
+console.log(center)
+  useEffect(() => {
+    if (map) {
+      map.setView(center, zoom);
+      map.setMaxBounds(bounds);
+      map.fitBounds(bounds, { padding: L.point(10, 10) });
+    }
+  }, [map, center, zoom, bounds]);
+
+  return null;
+};
 
 const ContextMenu: React.FC<ContextMenuProps> = ({
   visible,
@@ -88,226 +164,319 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       });
   };
 
+
+  const bounds = L.latLngBounds(L.latLng(-65, -180), L.latLng(85, 0.0));
+
   return (
     <Transition
       mounted={visible && menuData !== null}
-      transition="slide-left"
-      duration={500}
+      transition="slide-right"
+      duration={400}
       timingFunction="ease"
     >
       {(styles) => (
         <div
-          className="menu"
+          className="context-menu-container"
           style={{
-            ...styles,
-            opacity: styles.opacity,
-            right: styles.transform?.includes("translate") ? "20px" : "-500px",
-            pointerEvents: styles.opacity === 0 ? "none" : "auto",
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[9]
-                : theme.colors.gray[1],
-            borderRadius: "8px",
-            padding: "16px",
-            boxShadow: theme.shadows.md,
+            position: "fixed",
+            top: 0,
+            width: "500px",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             zIndex: 1000,
+            ...styles,
           }}
         >
-          <Text
-            weight={700}
-            size="lg"
-            align="center"
-            ta="center"
-            tt="uppercase"
-            style={{ marginBottom: "10px" }}
-          >
-            {menuData?.title}
-          </Text>
-          <ActionIcon
-            color="red"
-            className="close-button"
-            onClick={onClose}
-            title="Close Menu"
+          <Box
+            p="sm"
             style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[9]
+                  : theme.colors.gray[1],
+              boxShadow: theme.shadows.sm,
+              width: "90%",
+              maxWidth: "500px",
+              minHeight: "20%",
+              maxHeight: "60%",
+              overflow: "hidden",
+              position: "relative",
+              transition: "transform 0.3s ease-in-out",
+              margin: "1.5vh",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            <IoClose size={20} />
-          </ActionIcon>
-
-          <ScrollArea h={800} offsetScrollbars scrollbarSize={7}>
-            <Box p="md">
-              <Stack spacing="sm">
+            <Title order={4} align="center" mb="xs">
+              {menuData?.title}
+            </Title>
+            <Divider my="sm" variant="dotted" />
+            <ActionIcon
+              color="red"
+              className="close-button"
+              onClick={onClose}
+              title="Close Menu"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+              }}
+            >
+              <IoClose size={20} />
+            </ActionIcon>
+            <ScrollBarContainer>
+              <Stack spacing="sm" p="md">
                 {menuData?.items.length === 0 && (
                   <Text color="dimmed" align="center">
                     No options available
                   </Text>
                 )}
                 {menuData?.items.map((item, index) => (
-          
-                  <Tooltip
-                    key={index}
-                    withinPortal
-                    zIndex={2000}
-                    openDelay={500}
-                    disabled={item.metadata ? false: true}
-                    label={
-                      item.metadata ? (
-                        <>
-                          <Text
-                            weight={500}
-                            size="sm"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              marginBottom: "8px",
-                              marginRight: "8px",
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={
-                                item.metadata.iconTitle
-                                  ? getIcon(item.metadata.iconTitle)
-                                  : getIcon("car")
-                              }
-                              size="lg"
-                              style={{ marginRight: "8px" }}
-                            />
-                            {item.metadata.title || "Missing Title"}
-                          </Text>
-                          {item.metadata.metadataValue &&
-                            Object.entries(item.metadata.metadataValue).map(
-                              ([key, value]) => (
-                                <div
-                                  key={key}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    padding: "4px 0",
-                                  }}
-                                >
-                                  <Text tt="uppercase" weight={300} size="xs">
-                                    {key
-                                      .replace(/([A-Z])/g, " $1")
-                                      .toUpperCase()}
-                                    :
-                                  </Text>
-
-                                  <Badge
-                                    variant="light"
-                                    color="blue"
-                                    size="xs"
-                                    radius="xs"
-                                    style={{
-                                      marginLeft: "10px",
-                                    }}
-                                  >
-                                    {value}
-                                  </Badge>
-                                </div>
-                              )
-                            )}
-                        </>
-                      ) : null
-                    }
-                    withArrow
-                    position="left"
-                    color={
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[8]
-                        : theme.colors.gray[0]
-                    }
-                    multiline
-                    transitionProps={{
-                      transition: "slide-left",
-                      duration: 500,
-                    }}
-                    offset={8}
-                    style={{
-                      zIndex: 2000,
-                      padding: "10px",
-                      margin: "8px",
-                    }}
-                  >
-                    <Group
-                      className="context-menu-item"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: "10px 15px",
-                        backgroundColor:
+                  <Grid key={index}>
+                    <Col span={12}>
+                      <Tooltip
+                        withinPortal
+                        zIndex={2000}
+                        openDelay={500}
+                        disabled={!item.metadata}
+                        label={
+                          item.metadata ? (
+                            <div>
+                              <Text
+                                weight={500}
+                                size="sm"
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  marginBottom: "8px",
+                                }}
+                              >
+                                <FontAwesomeIcon
+                                  icon={
+                                    item.metadata.iconTitle
+                                      ? getIcon(item.metadata.iconTitle)
+                                      : getIcon("car")
+                                  }
+                                  size="lg"
+                                  style={{ marginRight: "8px" }}
+                                />
+                                {item.metadata.title || "Missing Title"}
+                              </Text>
+                              {item.metadata.metadataValue &&
+                                Object.entries(item.metadata.metadataValue).map(
+                                  ([key, value]) => (
+                                    <div
+                                      key={key}
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        padding: "4px 0",
+                                      }}
+                                    >
+                                      <Text
+                                        tt="uppercase"
+                                        weight={300}
+                                        size="xs"
+                                      >
+                                        {key
+                                          .replace(/([A-Z])/g, " $1")
+                                          .toUpperCase()}
+                                        :
+                                      </Text>
+                                      <Badge
+                                        variant="light"
+                                        color="blue"
+                                        size="xs"
+                                        radius="xs"
+                                        style={{
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {value}
+                                      </Badge>
+                                    </div>
+                                  )
+                                )}
+                            </div>
+                          ) : null
+                        }
+                        withArrow
+                        position="left"
+                        color={
                           theme.colorScheme === "dark"
-                            ? theme.colors.dark[7]
-                            : theme.colors.gray[0],
-                        borderRadius: "4px",
-                        cursor: item.disabled ? "not-allowed" : "pointer",
-                        transition: "background-color 0.3s",
-                      }}
-                    >
-                      <Group spacing="sm" align="center" style={{ flex: 1 }}>
-                        <FontAwesomeIcon icon={getIcon(item.icon)} size="lg" />
-                        <Stack spacing={2} style={{ flex: 1 }}>
-                          <Text
-                            weight={500}
-                            style={{
-                              color: item.disabled ? "#888" : "#fff",
-                            }}
-                          >
-                            {item.label}
-                          </Text>
-                          <Text size="sm" color="dimmed">
-                            {item.description}
-                          </Text>
-                        </Stack>
-                      </Group>
-                      <Flex
-                        mih={50}
-                        gap="xs"
-                        justify="flex-end"
-                        align="center"
-                        direction="row"
-                        wrap="wrap"
+                            ? theme.colors.dark[8]
+                            : theme.colors.gray[0]
+                        }
+                        multiline
+                        transitionProps={{
+                          transition: "slide-right",
+                          duration: 500,
+                        }}
+                        offset={8}
+                        style={{
+                          zIndex: 2000,
+                          padding: "10px",
+                          margin: "8px",
+                        }}
                       >
-                        {item.progress != null && item.progress > 0 && (
-                          <div
-                            style={{
-                              flexShrink: 0,
-                              width: "45px",
-                            }}
-                          >
-                            <RingProgress
-                              sections={[
-                                {
-                                  value: item.progress,
-                                  color: item.colorProgress || "blue",
-                                },
-                              ]}
-                              thickness={4}
-                              size={40}
-                            />
-                          </div>
-                        )}
-                        <Button
-                          variant="light"
-                          color="blue"
-                          onClick={() => !item.disabled && handleAction(index)}
-                          disabled={item.disabled}
+                        <Group
+                          className="context-menu-item"
                           style={{
-                            color: item.disabled ? "#555" : "#1e90ff",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            padding: "10px 15px",
+                            backgroundColor:
+                              theme.colorScheme === "dark"
+                                ? theme.colors.dark[7]
+                                : theme.colors.gray[0],
+                            borderRadius: "4px",
+                            cursor: item.disabled ? "not-allowed" : "pointer",
+                            transition: "background-color 0.3s",
                           }}
                         >
-                          {item.labelButton || "Action"}
-                        </Button>
-                      </Flex>
-                    </Group>
-                  </Tooltip>
+                          <Group
+                            spacing="sm"
+                            align="center"
+                            style={{ flex: 1 }}
+                          >
+                            {item.icon ? (
+                              <FontAwesomeIcon
+                                icon={getIcon(item.icon)}
+                                size="lg"
+                              />
+                            ) : (
+                              <Avatar src={item.image} color="red" size="lg" />
+                            )}
+
+                            <Stack spacing={2} style={{ flex: 1 }}>
+                              <Group spacing={4} align="center">
+                                <Text
+                                  weight={500}
+                                  style={{
+                                    color: item.disabled ? "#888" : "#fff",
+                                  }}
+                                >
+                                  {item.label}
+                                </Text>
+                              </Group>
+                              <Text size="sm" color="dimmed">
+                                {item.description}
+                              </Text>
+                            </Stack>
+                          </Group>
+                          <Flex
+                            mih={50}
+                            gap="xs"
+                            justify="flex-end"
+                            align="center"
+                            direction="row"
+                            wrap="wrap"
+                          >
+                            {item.ringProgress != null ? (
+                              <div
+                                style={{
+                                  flexShrink: 0,
+                                  width: "45px",
+                                }}
+                              >
+                                <RingProgress
+                                  label={
+                                    <Center>
+                                      <ThemeIcon
+                                        color="teal"
+                                        variant="light"
+                                        radius="xl"
+                                        size="xs"
+                                      >
+                                        <LuFuel size={14} />
+                                      </ThemeIcon>
+                                    </Center>
+                                  }
+                                  sections={[
+                                    {
+                                      value: item.ringProgress,
+                                      color:
+                                        item.colorProgress ||
+                                        theme.colors.teal[5],
+                                    },
+                                  ]}
+                                  thickness={3}
+                                  size={40}
+                                />
+                              </div>
+                            ) : item.progress != null ? (
+                              <Group spacing={4} align="center">
+                                <Text fz="sm">{item.progress}%</Text>
+                                <Progress
+                                  value={item.progress}
+                                  color={item.colorProgress || "teal"}
+                                  size="md"
+                                  style={{ flexShrink: 0, width: "55px" }}
+                                />
+                              </Group>
+                            ) : null}
+                            {item.actionButton !== false && (
+                              <Button
+                                variant="light"
+                                color="blue"
+                                onClick={() =>
+                                  !item.disabled && handleAction(index)
+                                }
+                                disabled={item.disabled}
+                                style={{
+                                  color: item.disabled ? "#555" : "#1e90ff",
+                                }}
+                              >
+                                {item.labelButton || "Action"}
+                              </Button>
+                            )}
+                          </Flex>
+                        </Group>
+                      </Tooltip>
+                      {item.map && (
+                        <MapContainerWrapper>
+                          <MapContainer
+                            style={{ height: "100%", width: "100%" }}
+                            zoom={item.map.zoom}
+                            maxBounds={bounds}
+                            maxBoundsViscosity={1.0}
+                            center={mapCenter}
+                            maxZoom={20}
+                            minZoom={2}
+                            scrollWheelZoom={true}
+                          >
+                            <TileLayer
+                              url={`https://s.rsg.sc/sc/images/games/GTAV/map/${item.map.mapLayer}/{z}/{x}/{y}.jpg`}
+                            />
+                            {item.map.markers.map((marker, idx) => (
+                         
+                              <Marker
+                                key={idx}
+                                position={gameToMap(
+                                  marker.position[0],
+                                  marker.position[1]
+                                )}
+                              >
+                                <Popup>{marker.popupText}</Popup>
+                              </Marker>
+                            ))}
+                            <CenterMapOnLoad
+                              center={mapCenter}
+                              zoom={item.map.zoom}
+                              bounds={bounds}
+                            />
+                          </MapContainer>
+                        </MapContainerWrapper>
+                      )}
+                    </Col>
+                  </Grid>
                 ))}
               </Stack>
-            </Box>
-          </ScrollArea>
+            </ScrollBarContainer>
+          </Box>
         </div>
       )}
     </Transition>

@@ -74,6 +74,7 @@ function GenerateMainMenu()
         local disabled = v.Fuel <= 60
         table.insert(options, {
             label = v.Label,
+
             description = 'Fuel: ' .. v.Fuel .. '%',
             icon = 'car',
             disabled = disabled,
@@ -126,11 +127,11 @@ local point = lib.points.new({
 
 function point:onEnter()
     exports['LGF_UI']:OpenTextUI({
-        message = "OPEN LIFE STYLE SELECTOR",
+        message = "[E] - OPEN LIFE STYLE SELECTOR",
         position = "center-right",
-        useKeybind = true,
+        useKeybind = false,
         keyBind = "E",
-        useProgress = false,
+        useProgress = true,
     })
 end
 
@@ -179,9 +180,11 @@ function OpenDialogTest()
         cards = {
             {
                 title = 'Criminal',
-                message = 'The criminal lifestyle is characterized by activities outside the law. Those who choose this path often engage in illegal activities such as theft, smuggling, and various forms of organized crime. Embracing a criminal life typically involves high risks and the need for secrecy. If you are interested in acquiring items associated with this lifestyle, you will be provided with resources that may assist you in navigating and thriving within this world of crime. Choose wisely, as each decision has its consequences.',
+                message =
+                'The criminal lifestyle is characterized by activities outside the law. Those who choose this path often engage in illegal activities such as theft, smuggling, and various forms of organized crime. Embracing a criminal life typically involves high risks and the need for secrecy. If you are interested in acquiring items associated with this lifestyle, you will be provided with resources that may assist you in navigating and thriving within this world of crime. Choose wisely, as each decision has its consequences.',
                 actionLabel = 'Criminal',
-                image = "https://cdn.discordapp.com/attachments/1273666294599913524/1273668480801177622/thumb-1920-1343705.png?ex=66c410f5&is=66c2bf75&hm=bba586457be139e24bfed0fe4b1004de17b50cda885f20c3bccc6ebaa114aa6c&",
+                image =
+                "https://cdn.discordapp.com/attachments/1273666294599913524/1273668480801177622/thumb-1920-1343705.png?ex=66c410f5&is=66c2bf75&hm=bba586457be139e24bfed0fe4b1004de17b50cda885f20c3bccc6ebaa114aa6c&",
                 onAction = function()
                     local items = LifeStyle.Criminal
                     print('Criminal Life Selected')
@@ -221,7 +224,8 @@ function OpenDialogTest()
             },
             {
                 title = 'Medical',
-                message ='The medical lifestyle focuses on health and emergency care. Individuals in this role are dedicated to diagnosing, treating, and caring for patients in various medical settings. Whether working in hospitals, clinics, or emergency services, medical professionals play a crucial role in maintaining public health and providing critical care. By choosing the medical lifestyle, you will receive items and resources that are essential for performing medical duties and supporting your role in healthcare.',
+                message =
+                'The medical lifestyle focuses on health and emergency care. Individuals in this role are dedicated to diagnosing, treating, and caring for patients in various medical settings. Whether working in hospitals, clinics, or emergency services, medical professionals play a crucial role in maintaining public health and providing critical care. By choosing the medical lifestyle, you will receive items and resources that are essential for performing medical duties and supporting your role in healthcare.',
                 actionLabel = 'Medic',
                 onAction = function()
                     print('Medical Life Selected')
@@ -232,6 +236,59 @@ function OpenDialogTest()
                     exports['LGF_UI']:CloseDialog("lifeStyle")
                 end,
             }
+
         }
     })
 end
+
+RegisterCommand('testNotifications', function()
+    -- Notification 1: Success
+    TriggerEvent('LGF_UI:SendNotification', {
+        id = "success1",
+        title = "Success",
+        message = "Operation completed successfully.",
+        icon = "success",
+        duration = 3000,
+        position = 'top-right'
+    })
+
+    -- Notification 2: Error
+    TriggerEvent('LGF_UI:SendNotification', {
+        id = "error1",
+        title = "Error",
+        message = "An error occurred during the operation.",
+        icon = "error",
+        duration = 3000,
+        position = 'top-left'
+    })
+
+    -- Notification 3: Progress
+    TriggerEvent('LGF_UI:SendNotification', {
+        id = "progress1",
+        title = "Processing",
+        message = "Your request is being processed.",
+        icon = "progress",
+        duration = 5000,
+        position = 'bottom-right'
+    })
+
+    -- Notification 4: Line
+    TriggerEvent('LGF_UI:SendNotification', {
+        id = "line1",
+        title = "Update Available",
+        message = "A new update is available. Please download it.",
+        icon = "line",
+        duration = 4000,
+        position = 'bottom-left'
+    })
+
+    -- Notification 5: Custom
+    TriggerEvent('LGF_UI:SendNotification', {
+        id = "custom1",
+        title = "Welcome",
+        message = "Welcome to the server! Have a great time.",
+        icon = "success",
+        duration = 4000,
+        position = 'top-right'
+    })
+end)

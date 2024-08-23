@@ -6,7 +6,7 @@ LocalPlayer.state.textUiOpen = false
 ---@field title string The title of the Text UI (optional)
 ---@field message string The message to display
 ---@field colorProgress string Progress color (optional)
----@field keyBind string Keybind to display (optional)
+---@field keyBind string Keybind to display (optional, only if useKeybind is true also show the loader)
 ---@field position string Position of the UI (e.g., "center", "center-left", "center-right")
 ---@field useKeybind boolean Show the keybind (optional)
 ---@field useProgress boolean Show the loader (optional)
@@ -69,19 +69,4 @@ exports('CloseTextUI', function()
     return TEXTUI:HideTextUI()
 end)
 
-
--- -- --[[REQUIRED RUN AT 0 THICK]]
--- CreateThread(function()
---     while true do
---         Wait(0)
---         exports['LGF_UI']:OpenTextUI({
---             message = "Loading in progress... Loading in progress... Loading in progress... Loading in progress...",
---             position = "center-right",
---             useKeybind = true,
---             keyBind = "E",
---             useProgress = false,
---             colorProgress = "#ff9900"
---         })
---     end
--- end)
 

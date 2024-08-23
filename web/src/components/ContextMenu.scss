@@ -18,7 +18,7 @@ body {
   padding: 10px;
   bottom: 40px; 
   right: -500px;
-  transform: translateY(0); 
+  transform: translateY(-50%);
   width: 375px;
   min-height: 500px;
   max-height: 500px;
@@ -45,4 +45,18 @@ body {
   .context-menu-card {
     margin-bottom: 10px;
   }
+
+  
 }
+
+.slide-in {
+  right: 5%;
+  opacity: 1;
+}
+
+.slide-out {
+  right: -500px;
+  opacity: 0;
+  pointer-events: none;
+}
+
