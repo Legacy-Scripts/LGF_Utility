@@ -81,4 +81,18 @@ exports['LGF_UI']:GetStateProgress()
 
 ```
 
+## Input 
+
+```lua
+-- Register a input whit multi params
+exports['LGF_UI']:RegisterInput(id, title, data)
+
+-- Close a specific input
+exports['LGF_UI']:CloseInput(id)
+
+-- Show a specific Input (Must be registered)
+exports['LGF_UI']:ShowInput(id)
+
+```
+
 
