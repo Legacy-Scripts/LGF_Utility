@@ -35,15 +35,6 @@ TriggerEvent('LGF_UI:SendNotification', data)
 
 ```lua
 
----@class TextUIData
----@field title string The title of the Text UI (optional)
----@field message string The message to display
----@field colorProgress string Progress color (optional)
----@field keyBind string Keybind to display (optional, only if useKeybind is true also show the loader)
----@field position string Position of the UI (e.g., "center", "center-left", "center-right")
----@field useKeybind boolean Show the keybind (optional)
----@field useProgress boolean Show the loader (optional)
-
 -- Open the text UI with specific data
 exports['LGF_UI']:OpenTextUI(data)
 
@@ -63,6 +54,9 @@ exports['LGF_UI']:RegisterDialog(data)
 
 -- Close Specific Dialog
 exports['LGF_UI']:CloseDialog(dialogID)
+
+-- Get State Dialog , Return true or false
+exports['LGF_UI']:GetDialogState()
 ```
 
 
