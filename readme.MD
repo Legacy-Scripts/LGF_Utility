@@ -35,7 +35,6 @@ TriggerEvent('LGF_UI:SendNotification', data)
 
 ```lua
 
-
 ---@class TextUIData
 ---@field title string The title of the Text UI (optional)
 ---@field message string The message to display
@@ -92,6 +91,12 @@ exports['LGF_UI']:CloseInput(id)
 
 -- Show a specific Input (Must be registered)
 exports['LGF_UI']:ShowInput(id)
+
+-- Get State Input , Return true or false
+exports['LGF_UI']:GetInputState()
+
+-- Close all Input Opened
+exports['LGF_UI']:ForceCloseInput()
 
 ```
 
