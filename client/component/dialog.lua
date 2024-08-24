@@ -18,7 +18,7 @@ DialogMetaTable = {}
 DialogMetaTable.__index = DialogMetaTable
 local DIALOGS = {}
 local currentCam
-
+LocalPlayer.state.DialogOpened = false
 
 function CameraDialog()
     local entity = PlayerPedId()
@@ -131,6 +131,8 @@ function OpenDialog(data)
         title = data.title,
         cards = CARDS_STEPPER
     })
+
+    LocalPlayer.state.DialogOpened = true
 end
 
 function CloseDialog(dialogID)
@@ -143,6 +145,7 @@ function CloseDialog(dialogID)
         action = 'hideDialog',
         id = dialogID
     })
+    LocalPlayer.state.DialogOpened = false
 end
 
 RegisterNUICallback('dialogAction', function(data, cb)
@@ -169,6 +172,7 @@ RegisterNUICallback('dialogClose', function(data, cb)
         local success = dialog:handleClose(data.cardIndex)
         if success then
             cb('ok')
+            LocalPlayer.state.DialogOpened = false
         else
             cb('error')
         end
@@ -176,6 +180,9 @@ RegisterNUICallback('dialogClose', function(data, cb)
         cb('error')
     end
 end)
+local function GetStateDialog()
+    return LocalPlayer.state.DialogOpened
+end
 
 exports('RegisterDialog', function(data)
     return OpenDialog(data)
@@ -185,8 +192,10 @@ exports('CloseDialog', function(dialogID)
     return CloseDialog(dialogID)
 end)
 
+exports('GetDialogState' , GetStateDialog)
 
 --[[
     exports['LGF_UI']:RegisterDialog(data)
     exports['LGF_UI']:CloseDialog(dialogID)
+    exports['LGF_UI']:GetDialogState()
 ]]
