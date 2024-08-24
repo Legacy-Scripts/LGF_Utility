@@ -1,10 +1,11 @@
 ---@class DialogCard
 ---@field title string Title of the card
 ---@field message string Message or description associated with the card
----@field actionLabel string Label for the action button
----@field actionCloseLabel string Label for the action button close (default is close)
----@field onAction function Function callback triggered when the action button is pressed
----@field onClose function Function callback triggered when the dialog is closed
+---@field actionLabel string|nil Label for the action button (optional)
+---@field actionCloseLabel string|nil Label for the close action button (optional, default is "Close")
+---@field onAction function|nil Function callback triggered when the action button is pressed (optional)
+---@field onClose function|nil Function callback triggered when the dialog is closed (optional)
+---@field image string|nil URL or path to an image to be displayed on the card (optional)
 
 ---@class DialogData
 ---@field id string Unique ID for the dialog
@@ -16,9 +17,8 @@
 DialogMetaTable = {}
 DialogMetaTable.__index = DialogMetaTable
 local DIALOGS = {}
-local CAM = {}
 local currentCam
-local CARD_SELECTED = {}
+
 
 function CameraDialog()
     local entity = PlayerPedId()

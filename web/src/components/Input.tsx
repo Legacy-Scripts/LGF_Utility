@@ -55,6 +55,7 @@ interface InputData {
   title: string;
   fields: Field[];
   canClose?: boolean;
+  titleButton?: string;
 }
 
 const InputComponent = () => {
@@ -88,7 +89,6 @@ const InputComponent = () => {
     };
   }, [handleMessage]);
 
-
   const handleSubmit = async () => {
     const allFieldsFilled = inputData?.fields.every((field, index) => {
       if (field.required) {
@@ -121,11 +121,9 @@ const InputComponent = () => {
     }, 1500);
   };
 
-
   const handleFieldChange = (index: number, value: any) => {
     setFormValues((prevValues) => ({ ...prevValues, [index]: value }));
   };
-
 
   const handleClose = async () => {
     if (inputData?.canClose) {
@@ -157,7 +155,6 @@ const InputComponent = () => {
       return () => clearTimeout(timer);
     }
   }, [closing]);
-
 
   const renderInputField = (field: Field, index: number) => {
     const inputStyles = { marginBottom: "0px" };
@@ -331,7 +328,7 @@ const InputComponent = () => {
                 loading={submitting}
                 size="xs"
               >
-                Submit
+                {inputData?.titleButton}
               </Button>
               {inputData?.canClose && (
                 <Button

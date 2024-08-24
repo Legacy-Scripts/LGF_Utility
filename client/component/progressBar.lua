@@ -91,16 +91,4 @@ exports('DisableProgressBar', function() return PROGRESS:DisableProgressBar() en
 exports('CreateProgressBar', function(data) return PROGRESS:CreateProgress(data) end)
 exports('GetStateProgress', function() return LocalPlayer.state.progressOpen end)
 
-RegisterCommand('prova', function()
-    PROGRESS:CreateProgress({
-        message = "Test Progress Bar",
-        colorProgress = "#0ca678",
-        position = "bottom",
-        duration = 6000,
-        disableBind = 38,
-        disableKeyBind = { 24, 32, 33, 34, 30, 31, 36, 21, },
-        onFinish = function()
-            print("Progress bar closed")
-        end
-    })
-end)
+

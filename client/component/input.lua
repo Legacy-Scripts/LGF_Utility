@@ -2,12 +2,15 @@ InputMetaTable = {}
 InputMetaTable.__index = InputMetaTable
 local INPUT_FIELDS = {}
 local CB = nil
-function InputMetaTable.new(inputID, inputTitle, fields, canClose)
+LocalPlayer.state.InputOpened = false
+
+function InputMetaTable.new(inputID, inputTitle, fields, canClose, titleButton)
     local self = setmetatable({}, InputMetaTable)
     self.id = inputID
     self.title = inputTitle
     self.fields = fields
     self.canClose = canClose
+    self.titleButton = titleButton
     return self
 end
 
@@ -16,11 +19,11 @@ function InputMetaTable:getField(index)
 end
 
 function InputMetaTable:submitFields(data)
-    local fieldValues = {} 
+    local fieldValues = {}
 
     for index, field in ipairs(self.fields) do
-        local value = data[index] or ""  
-        fieldValues[field.label] = value 
+        local value = data[index] or ""
+        fieldValues[field.label] = value
         if field.onSubmit then
             field.onSubmit(value)
         end
@@ -45,22 +48,28 @@ local function showInputForm(inputID)
             id = inputData.id,
             title = inputData.title,
             fields = inputData.fields,
-            canClose = inputData.canClose
+            canClose = inputData.canClose,
+            titleButton = inputData.titleButton,
         })
+        LocalPlayer.state.InputOpened = true
     end
 end
 
 
 local function closeInputForm(inputID)
-    local Focused = IsNuiFocused()
-    if Focused then
-        SetNuiFocus(false, false)
-    end
     local inputData = INPUT_FIELDS[inputID]
     if inputData then
+        local Focused = IsNuiFocused()
+        if Focused then
+            SetNuiFocus(false, false)
+        end
         sendNuiMessage("closeInputForm", {
             id = inputData.id,
         })
+        LocalPlayer.state.InputOpened = false
+    else
+        print(('Error: Input ID %s not found in INPUT_FIELDS. Available IDs: %s'):format(inputID,
+            json.encode(INPUT_FIELDS, { indent = true })))
     end
 end
 
@@ -69,9 +78,10 @@ RegisterNuiCallback('input:Close', function(data, cb)
     Wait(500)
     closeInputForm(data.inputID)
     CB:resolve(nil)
+    LocalPlayer.state.InputOpened = false
 end)
 
-local function registerInput(inputID, inputTitle, fields, canClose)
+local function registerInput(inputID, inputTitle, fields, canClose, titleButton)
     CB = promise.new()
     if not inputID or not inputTitle or not fields then
         print(('Error: Missing data in registerInput. InputID: %s, InputTitle: %s, Fields: %s'):format(
@@ -82,8 +92,7 @@ local function registerInput(inputID, inputTitle, fields, canClose)
         return
     end
 
-    INPUT_FIELDS[inputID] = InputMetaTable.new(inputID, inputTitle, fields, canClose)
-    print('Registered input:', inputID, inputTitle)
+    INPUT_FIELDS[inputID] = InputMetaTable.new(inputID, inputTitle, fields, canClose, titleButton)
     showInputForm(inputID)
     return Citizen.Await(CB)
 end
@@ -96,71 +105,40 @@ RegisterNuiCallback('LGF_UI.GetInputData', function(data, cb)
             id = inputData.id,
             title = inputData.title,
             fields = inputData.fields,
-            canClose = inputData.canClose
+            canClose = inputData.canClose,
+            titleButton = inputData.titleButton,
         })
     else
         cb(nil)
     end
 end)
 
-
-local function logFieldSubmission(data)
-    for index, value in pairs(data) do
-        print("Field index:", index, "Value:", value)
-    end
-end
-
 RegisterNuiCallback('input:Submit', function(data, cb)
     local input = INPUT_FIELDS[data.inputID]
     if input then
         local success = input:submitFields(data.fields)
-        logFieldSubmission(data.fields)
-
-        cb(success)
         Wait(1500)
         local Focused = IsNuiFocused()
         if Focused then
             SetNuiFocus(false, false)
         end
+        cb(success)
         CB:resolve(true)
     else
         cb(false)
     end
 end)
-exports('RegisterInput', registerInput)
 
-RegisterCommand('input', function()
-    local inputData = {}
-    local negro = exports['LGF_UI']:RegisterInput('player_info', 'Player Information', {
-        {
-            label = 'Enter your name:',
-            placeholder = 'Name',
-            description = 'Please enter your full name.',
-            type = 'text',
-            required = true,
-            onSubmit = function(value)
-                inputData.name = value
-            end
-        },
-        {
-            label = 'Select your class:',
-            type = 'select',
-            options = {
-                { label = 'Warrior', value = 'warrior' },
-                { label = 'Mage',    value = 'mage' },
-                { label = 'Rogue',   value = 'rogue' }
-            },
-            description = 'Choose your class from the options provided.',
-            required = true,
-            onSubmit = function(value)
-                inputData.class = value
-            end
-        },
-    }, true)
-    print(negro)
-    if negro then
-        print('dwadwadwadwadwa')
-        print(json.encode(inputData))
-        TriggerServerEvent('SendInputData', inputData)
-    end
-end)
+local function GetInputState()
+    return LocalPlayer.state.InputOpened
+end
+
+local function ForceCloseInput()
+    closeInputForm(nil)
+    LocalPlayer.state.InputOpened = false
+end
+exports('RegisterInput', registerInput)
+exports('CloseInput', closeInputForm)
+exports('ShowInput', showInputForm)
+exports('GetInputState', GetInputState)
+exports('ForceCloseInput', ForceCloseInput)

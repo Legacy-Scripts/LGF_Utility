@@ -31,20 +31,19 @@ import { LuFuel } from "react-icons/lu";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import Map from "./map";
 
+// THX TO https://github.com/BubbleDK/bub-mdt for GameToMap API
 
 const mapCenter: [number, number] = [-119.43, 58.84];
 const latPr100 = 1.421;
 
 function gameToMap(x: number, y: number): [number, number] {
-  const mappedCoordinates: [number, number] = [
+  return [
     mapCenter[0] + (latPr100 / 100) * y,
     mapCenter[1] + (latPr100 / 100) * x,
   ];
-  console.log("Converted coordinates:", mappedCoordinates);
-  return mappedCoordinates;
 }
-
 
 const ScrollBarContainer = styled.div`
   overflow-y: auto;
@@ -59,14 +58,12 @@ const ScrollBarContainer = styled.div`
   }
 `;
 
-
 const MapContainerWrapper = styled.div`
-  height: 600px;
+  height: 400px;
   width: 100%;
   position: relative;
   overflow: hidden;
 `;
-
 
 interface ContextMenuItem {
   label: string;
@@ -89,7 +86,7 @@ interface ContextMenuItem {
   map?: {
     center: [number, number];
     zoom: number;
-    markers: { position: [number, number]; popupText: string }[];
+    markers: { position: [number, number]; popupText: string; icon: string }[];
     mapLayer?: string;
   };
 }
@@ -105,14 +102,13 @@ interface MenuData {
   items: ContextMenuItem[];
 }
 
-
 const CenterMapOnLoad: React.FC<{
   center: [number, number];
   zoom: number;
   bounds: L.LatLngBounds;
 }> = ({ center, zoom, bounds }) => {
   const map = useMap();
-console.log(center)
+  console.log(center);
   useEffect(() => {
     if (map) {
       map.setView(center, zoom);
@@ -163,7 +159,6 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         setIsProcessing(false);
       });
   };
-
 
   const bounds = L.latLngBounds(L.latLng(-65, -180), L.latLng(85, 0.0));
 
@@ -439,35 +434,70 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
                       {item.map && (
                         <MapContainerWrapper>
                           <MapContainer
-                            style={{ height: "100%", width: "100%" }}
-                            zoom={item.map.zoom}
-                            maxBounds={bounds}
+                            key={"game"}
+                            center={[-119.43, 58.84]}
                             maxBoundsViscosity={1.0}
-                            center={mapCenter}
-                            maxZoom={20}
-                            minZoom={2}
-                            scrollWheelZoom={true}
+                            preferCanvas
+                            zoom={2}
+                            zoomControl={false}
+                            crs={L.CRS.Simple}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              borderRadius: theme.radius.md,
+                              zIndex: 1,
+                              backgroundColor: "rgb(13 43 79)",
+                            }}
                           >
-                            <TileLayer
-                              url={`https://s.rsg.sc/sc/images/games/GTAV/map/${item.map.mapLayer}/{z}/{x}/{y}.jpg`}
-                            />
-                            {item.map.markers.map((marker, idx) => (
-                         
-                              <Marker
-                                key={idx}
-                                position={gameToMap(
-                                  marker.position[0],
-                                  marker.position[1]
-                                )}
-                              >
-                                <Popup>{marker.popupText}</Popup>
-                              </Marker>
-                            ))}
-                            <CenterMapOnLoad
-                              center={mapCenter}
-                              zoom={item.map.zoom}
-                              bounds={bounds}
-                            />
+                            <Map />
+
+                            <React.Suspense>
+                              {item.map.markers.map((marker, idx) => {
+                                if (
+                                  marker.position[0] === 0 &&
+                                  marker.position[1] === 0
+                                ) {
+                                  return null; 
+                                }
+
+                                return (
+                                  <Marker
+                                    key={idx}
+                                    icon={L.icon({
+                                      iconUrl: marker.icon || "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+                                      iconSize: [60, 60],
+                                      iconAnchor: [12, 41],
+                                      popupAnchor: [1, -34],
+                                      shadowUrl:"https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+                                      shadowSize: [41, 41],
+                                    })}
+                                    position={gameToMap(
+                                      marker.position[0],
+                                      marker.position[1]
+                                    )}
+                                  >
+                                    <Popup>{marker.popupText}</Popup>
+                                    <div
+                                      style={{
+                                        minWidth: 150,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: 7,
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                          gap: 5,
+                                          alignItems: "center",
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </Marker>
+                                );
+                              })}
+                            </React.Suspense>
                           </MapContainer>
                         </MapContainerWrapper>
                       )}

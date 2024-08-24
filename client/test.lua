@@ -78,7 +78,7 @@ function GenerateMainMenu()
             description = 'Fuel: ' .. v.Fuel .. '%',
             icon = 'car',
             disabled = disabled,
-            progress = v.Fuel,
+            progress = v.Fuel, -- ringProgress or progress
             colorProgress = 'green',
             labelButton = 'Select',
             metadata = {
@@ -290,5 +290,101 @@ RegisterCommand('testNotifications', function()
         icon = "success",
         duration = 4000,
         position = 'top-right'
+    })
+end)
+
+
+
+local function registerInputForm()
+    local inputData = {}
+    local INPUT_REGISTERED = exports['LGF_UI']:RegisterInput('example_form', 'Example Input Form', {
+        {
+            label = 'Name',
+            placeholder = 'Enter your name',
+            type = 'text',
+            required = true,
+            onSubmit = function(value)
+                inputData.Name = value
+            end
+        },
+        {
+            label = 'Age',
+            placeholder = 'Enter your age',
+            type = 'number',
+            min = 0,
+            max = 120,
+            required = true,
+            onSubmit = function(value)
+                inputData.Age = value
+            end
+        },
+        {
+            label = 'Gender',
+            type = 'select',
+            options = {
+                { label = 'Male',   value = 'male' },
+                { label = 'Female', value = 'female' },
+                { label = 'Other',  value = 'other' }
+            },
+            required = true,
+            onSubmit = function(value)
+                inputData.Gender = value
+            end
+        },
+        {
+            label = 'Password',
+            placeholder = 'Enter your password',
+            type = 'password',
+            required = true,
+            onSubmit = function(value)
+                inputData.Password = value
+            end
+        },
+        {
+            label = 'Biography',
+            placeholder = 'Tell us about yourself',
+            type = 'textarea',
+            required = false,
+            onSubmit = function(value)
+                inputData.Biography = value
+            end
+        },
+        {
+            label = 'Vehicle Plate',
+            placeholder = "23FF35B",
+            type = 'text',
+            disabledInput = true,
+            onSubmit = function(value)
+                local Plate = "DAWDWAD"
+                inputData.VehiclePlate = Plate
+            end
+        }
+    }, true) -- Input can Close?
+
+    if INPUT_REGISTERED then
+        print(json.encode(inputData, { indent = true, empty_table_as_array = true }))
+    else
+        print('Failed to register input form')
+    end
+end
+
+
+RegisterCommand('mostrainput', function()
+    registerInputForm()
+end)
+
+
+
+RegisterCommand('progress', function()
+    PROGRESS:CreateProgress({
+        message = "Test Progress Bar",
+        colorProgress = "#0ca678",
+        position = "bottom",
+        duration = 6000,
+        disableBind = 38,
+        disableKeyBind = { 24, 32, 33, 34, 30, 31, 36, 21, },
+        onFinish = function()
+            print("Progress bar closed")
+        end
     })
 end)
