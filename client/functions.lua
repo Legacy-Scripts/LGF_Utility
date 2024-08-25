@@ -1,5 +1,7 @@
 NUI = {}
 _G.isUIOpen = false
+LocalPlayer.state.contextOpened = false
+
 
 local function CanOpenContext()
   return not Config.isPlayerDead() and
@@ -8,21 +10,22 @@ local function CanOpenContext()
       not _G.isUIOpen
 end
 
-function NUI:showNui(action, menuID, shouldShow)
-  SetNuiFocus(shouldShow, shouldShow)
-  SendNUIMessage({ action = action, data = { menuID = menuID, visible = shouldShow } })
+function NUI:showNui(action, menuID, show)
+  local isFocused = IsNuiFocused()
+  SetNuiFocus(not isFocused, not isFocused)
+  SendNUIMessage({ action = action, data = { menuID = menuID, visible = show } })
   if action == 'CreateMenuContext' then
-    _G.isUIOpen = shouldShow
-    LocalPlayer.state:set('ContextOpen', shouldShow, true)
+    _G.isUIOpen = true
+    LocalPlayer.state.contextOpened = true
   end
 end
 
 RegisterNuiCallback('UI:CloseContext', function(data, cb)
+  print(json.encode(data))
   SetNuiFocus(false, false)
   SendNUIMessage({ action = "CreateMenuContext", data = { menuID = data.menuID, visible = false } })
-
   _G.isUIOpen = false
-  LocalPlayer.state:set('ContextOpen', false, true)
+  LocalPlayer.state.contextOpened = false
   cb(true)
 end)
 

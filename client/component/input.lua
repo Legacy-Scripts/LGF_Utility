@@ -40,6 +40,7 @@ local function sendNuiMessage(action, data)
 end
 
 local function showInputForm(inputID)
+    if _G.isUIOpen then return end
     local Focused = IsNuiFocused()
     SetNuiFocus(not Focused, not Focused)
     local inputData = INPUT_FIELDS[inputID]
@@ -52,6 +53,7 @@ local function showInputForm(inputID)
             titleButton = inputData.titleButton,
         })
         LocalPlayer.state.InputOpened = true
+        _G.isUIOpen = true
     end
 end
 
@@ -67,6 +69,7 @@ local function closeInputForm(inputID)
             id = inputData.id,
         })
         LocalPlayer.state.InputOpened = false
+        _G.isUIOpen = false
     else
         print(('Error: Input ID %s not found in INPUT_FIELDS. Available IDs: %s'):format(inputID,
             json.encode(INPUT_FIELDS, { indent = true })))
@@ -79,6 +82,7 @@ RegisterNuiCallback('input:Close', function(data, cb)
     closeInputForm(data.inputID)
     CB:resolve(nil)
     LocalPlayer.state.InputOpened = false
+    _G.isUIOpen = false
 end)
 
 local function registerInput(inputID, inputTitle, fields, canClose, titleButton)
@@ -137,6 +141,8 @@ local function ForceCloseInput()
     closeInputForm(nil)
     LocalPlayer.state.InputOpened = false
 end
+
+
 exports('RegisterInput', registerInput)
 exports('CloseInput', closeInputForm)
 exports('ShowInput', showInputForm)

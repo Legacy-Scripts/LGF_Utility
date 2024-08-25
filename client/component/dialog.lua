@@ -103,6 +103,7 @@ local function registerDialog(dialogID, dialogTitle, cards)
 end
 
 function OpenDialog(data)
+    if _G.isUIOpen then return end
     SetNuiFocus(true, true)
     local dialogID = data.id
     registerDialog(dialogID, data.title, data.cards or {})
@@ -133,6 +134,7 @@ function OpenDialog(data)
     })
 
     LocalPlayer.state.DialogOpened = true
+    _G.isUIOpen = true
 end
 
 function CloseDialog(dialogID)
@@ -146,6 +148,7 @@ function CloseDialog(dialogID)
         id = dialogID
     })
     LocalPlayer.state.DialogOpened = false
+    _G.isUIOpen = false
 end
 
 RegisterNUICallback('dialogAction', function(data, cb)
@@ -173,6 +176,7 @@ RegisterNUICallback('dialogClose', function(data, cb)
         if success then
             cb('ok')
             LocalPlayer.state.DialogOpened = false
+            _G.isUIOpen = false
         else
             cb('error')
         end
@@ -185,14 +189,16 @@ local function GetStateDialog()
 end
 
 exports('RegisterDialog', function(data)
+    _G.isUIOpen = true
     return OpenDialog(data)
 end)
 
 exports('CloseDialog', function(dialogID)
+    _G.isUIOpen = false
     return CloseDialog(dialogID)
 end)
 
-exports('GetDialogState' , GetStateDialog)
+exports('GetDialogState', GetStateDialog)
 
 --[[
     exports['LGF_UI']:RegisterDialog(data)

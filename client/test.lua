@@ -31,6 +31,8 @@ end
 
 
 
+
+
 local function GenerateVehicleMenu(vehicle)
     local MenuID = 'vehicle_menu_' .. vehicle.Label
     local TITLE = vehicle.Label
@@ -359,7 +361,7 @@ local function registerInputForm()
                 inputData.VehiclePlate = Plate
             end
         }
-    }, true) -- Input can Close?
+    }, true, "label button") -- Input can Close?
 
     if INPUT_REGISTERED then
         print(json.encode(inputData, { indent = true, empty_table_as_array = true }))
@@ -372,8 +374,6 @@ end
 RegisterCommand('mostrainput', function()
     registerInputForm()
 end)
-
-
 
 RegisterCommand('progress', function()
     PROGRESS:CreateProgress({

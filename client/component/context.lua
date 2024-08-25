@@ -35,6 +35,7 @@ local function registerMenu(menuID, menuTitle, items)
 
     CONTEXT_MENUS[menuID] = MenuMetaTable.new(menuID, menuTitle, items)
     print('Registered menu:', menuID, menuTitle)
+    _G.isUIOpen = true
 end
 
 RegisterNuiCallback('LGF_UI.GetContextData', function(data, cb)

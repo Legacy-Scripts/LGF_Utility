@@ -14,8 +14,7 @@ function delay(ms)
 end
 
 function PROGRESS:CreateProgress(data)
-    if LocalPlayer.state.progressOpen then return end
-
+    if _G.isUIOpen then return end
     local message = data.message
     local colorProgress = data.colorProgress or "rgba(54, 156, 129, 0.381)"
     local position = data.position or "center"
@@ -38,7 +37,7 @@ function PROGRESS:CreateProgress(data)
     })
 
     LocalPlayer.state.progressOpen = true
-
+    _G.isUIOpen = true
 
     CreateThread(function()
         local startTime = GetGameTimer()
@@ -73,7 +72,7 @@ end
 function PROGRESS:DisableProgressBar()
     SendNUIMessage({ action = "hideProgressBar" })
     LocalPlayer.state.progressOpen = false
-
+    _G.isUIOpen = false
     for key, _ in pairs(disabledControls) do
         EnableControlAction(0, key, true)
     end
@@ -82,13 +81,18 @@ function PROGRESS:DisableProgressBar()
 end
 
 AddEventHandler('onResourceStop', function(res)
-    if res == "LGF_UI" then
+    if not res == "LGF_UI" then return end
+    if LocalPlayer.state.progressOpen then
         PROGRESS:DisableProgressBar()
     end
+
+    if TEXTUI:GetStateTextUI() then
+        TEXTUI:HideTextUI()
+    end
+
+    
 end)
 
 exports('DisableProgressBar', function() return PROGRESS:DisableProgressBar() end)
 exports('CreateProgressBar', function(data) return PROGRESS:CreateProgress(data) end)
 exports('GetStateProgress', function() return LocalPlayer.state.progressOpen end)
-
-

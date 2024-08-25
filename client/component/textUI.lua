@@ -13,6 +13,7 @@ LocalPlayer.state.textUiOpen = false
 
 ---@param data TextUIData
 function TEXTUI:OpenTextUI(data)
+    if _G.isUIOpen then return end
     local message = data.message
     local colorProgress = data.colorProgress or "rgba(54, 156, 129, 0.381)"
     local keyBind = data.keyBind or ""
@@ -33,31 +34,26 @@ function TEXTUI:OpenTextUI(data)
     })
 
     LocalPlayer.state.textUiOpen = true
+    _G.isUIOpen = true
 end
 
 function TEXTUI:HideTextUI()
     SendNUIMessage({ action = "hideTextUI" })
     LocalPlayer.state.textUiOpen = false
+    _G.isUIOpen = false
 end
 
 function TEXTUI:GetStateTextUI()
     return LocalPlayer.state.textUiOpen
 end
 
-AddEventHandler('onResourceStop', function(res)
-    if res == 'LGF_UI' then
-        if TEXTUI:GetStateTextUI() then
-            TEXTUI:HideTextUI()
-            LocalPlayer.state.textUiOpen = false
-        end
-    end
-end)
 
 exports('OpenTextUI', function(data)
     if TEXTUI:GetStateTextUI() then
         return
     else
         TEXTUI:OpenTextUI(data)
+        _G.isUIOpen = true
     end
 end)
 
@@ -68,5 +64,3 @@ end)
 exports('CloseTextUI', function()
     return TEXTUI:HideTextUI()
 end)
-
-
