@@ -16,7 +16,6 @@ local Vehicle = {
 
 
 local function CreateVehicleTest(vehicleModel)
-    print("Creating vehicle with model:", vehicleModel)
     local ModelHash = vehicleModel
     if not IsModelInCdimage(ModelHash) then return end
     RequestModel(ModelHash)
@@ -121,35 +120,35 @@ exports.ox_target:addGlobalVehicle({
 
 -- [[DIALOG AND TEXT UI]]
 
-local point = lib.points.new({
-    coords = vec3(-1220.5801, -805.1790, 16.6298),
-    distance = 5,
-    dunak = 'nerd',
-})
+-- local point = lib.points.new({
+--     coords = vec3(-1220.5801, -805.1790, 16.6298),
+--     distance = 5,
+--     dunak = 'nerd',
+-- })
 
-function point:onEnter()
-    exports['LGF_UI']:OpenTextUI({
-        message = "[E] - OPEN LIFE STYLE SELECTOR",
-        position = "center-right",
-        useKeybind = false,
-        keyBind = "E",
-        useProgress = true,
-    })
-end
+-- function point:onEnter()
+--     exports['LGF_UI']:OpenTextUI({
+--         message = "[E] - OPEN LIFE STYLE SELECTOR",
+--         position = "center-right",
+--         useKeybind = false,
+--         keyBind = "E",
+--         useProgress = true,
+--     })
+-- end
 
-function point:onExit()
-    TEXTUI:HideTextUI()
-end
+-- function point:onExit()
+--     TEXTUI:HideTextUI()
+-- end
 
-function point:nearby()
-    DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 200, 20, 20,
-        50, false, true, 2, false, nil, nil, false)
+-- function point:nearby()
+--     DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 200, 20, 20,
+--         50, false, true, 2, false, nil, nil, false)
 
-    if self.currentDistance < 3 and IsControlJustReleased(0, 38) then
-        OpenDialogTest()
-        exports['LGF_UI']:CloseTextUI()
-    end
-end
+--     if self.currentDistance < 3 and IsControlJustReleased(0, 38) then
+--         OpenDialogTest()
+--         exports['LGF_UI']:CloseTextUI()
+--     end
+-- end
 
 local LifeStyle = {
     Criminal = {
@@ -189,7 +188,7 @@ function OpenDialogTest()
                 "https://cdn.discordapp.com/attachments/1273666294599913524/1273668480801177622/thumb-1920-1343705.png?ex=66c410f5&is=66c2bf75&hm=bba586457be139e24bfed0fe4b1004de17b50cda885f20c3bccc6ebaa114aa6c&",
                 onAction = function()
                     local items = LifeStyle.Criminal
-                    print('Criminal Life Selected')
+                        ('Criminal Life Selected')
                     for item, amount in pairs(items) do
                         TriggerServerEvent('LGF_UI:Test:GetStyleItems', item, amount)
                     end
@@ -376,7 +375,7 @@ RegisterCommand('mostrainput', function()
 end)
 
 RegisterCommand('progress', function()
-    exports.LGF_UI:CreateProgress({
+    PROGRESS:CreateProgress({
         message = "Test Progress Bar",
         colorProgress = "#0ca678",
         position = "bottom",

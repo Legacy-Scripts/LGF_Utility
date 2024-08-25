@@ -40,7 +40,7 @@ local function sendNuiMessage(action, data)
 end
 
 local function showInputForm(inputID)
-    if _G.isUIOpen then return end
+    -- if _G.isUIOpen then return end
     local Focused = IsNuiFocused()
     SetNuiFocus(not Focused, not Focused)
     local inputData = INPUT_FIELDS[inputID]

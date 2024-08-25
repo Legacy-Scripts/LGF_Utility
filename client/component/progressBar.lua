@@ -89,8 +89,6 @@ AddEventHandler('onResourceStop', function(res)
     if TEXTUI:GetStateTextUI() then
         TEXTUI:HideTextUI()
     end
-
-    
 end)
 
 exports('DisableProgressBar', function() return PROGRESS:DisableProgressBar() end)

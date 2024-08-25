@@ -11,8 +11,7 @@ local function CanOpenContext()
 end
 
 function NUI:showNui(action, menuID, show)
-  local isFocused = IsNuiFocused()
-  SetNuiFocus(not isFocused, not isFocused)
+  SetNuiFocus(show, show)
   SendNUIMessage({ action = action, data = { menuID = menuID, visible = show } })
   if action == 'CreateMenuContext' then
     _G.isUIOpen = true
@@ -33,22 +32,15 @@ function NUI:isUIOpen()
   return _G.isUIOpen
 end
 
-RegisterCommand('chiud', function()
-  NUI:showNui('CreateMenuContext', "main_vehicles_garage", false)
-end)
-
 exports('ShowContextMenu', function(menuID, shouldShow) return NUI:showNui('CreateMenuContext', menuID, shouldShow) end)
-
 exports('ForceCloseContext', function()
   NUI:showNui('CreateMenuContext', nil, false)
   _G.isUIOpen = false
 end)
-
 exports('CloseContext', function(menuID)
   NUI:showNui('CreateMenuContext', menuID, false)
   _G.isUIOpen = false
 end)
-
 exports('IsUiOpen', function() return NUI:isUIOpen() end)
 exports('CanOpenContext', CanOpenContext)
 
