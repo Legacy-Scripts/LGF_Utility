@@ -9,23 +9,22 @@
 
 If you need to edit the UI, you'll need Node.js installed on your machine. Here’s how you can set up your environment:
 
-1. **Install Dependencies**  
+1. ###Install Dependencies
    Navigate to your project directory and run the following command to install the necessary modules:
 ```bash
-   npm i
+npm i
 ```
 
-2. **Build the Project**
-
+2. ###Build the Project
 After editing or making changes to the UI, you can rebuild the project using:
 
 ```bash
 npm run build
 ```
+
 ## Context Menu
 
 ```lua
-
 exports['LGF_UI']:ShowContextMenu(menuID, show)
 exports['LGF_UI']:IsUiOpen()
 exports['LGF_UI']:RegisterContextMenu(menuID, menuTitle, data)
