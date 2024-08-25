@@ -27,6 +27,8 @@ For detailed documentation, visit the [LGF_UI Documentation on GitBook](https://
 
 ## Context Menu
 
+![Context Menu](https://cdn.discordapp.com/attachments/1217899672899944509/1277354650659717181/image.png?ex=66ccdcb8&is=66cb8b38&hm=2870c95f721b968ed35198c9c21a20ad69ef07a007cf47cf6a5462d913ce47d1)
+
 ```lua
 exports['LGF_UI']:ShowContextMenu(menuID, show)
 exports['LGF_UI']:IsUiOpen()
