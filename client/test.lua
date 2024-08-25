@@ -376,7 +376,7 @@ RegisterCommand('mostrainput', function()
 end)
 
 RegisterCommand('progress', function()
-    PROGRESS:CreateProgress({
+    exports.LGF_UI:CreateProgress({
         message = "Test Progress Bar",
         colorProgress = "#0ca678",
         position = "bottom",
