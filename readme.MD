@@ -27,8 +27,6 @@ For detailed documentation, visit the [LGF_UI Documentation on GitBook](https://
 
 ## Context Menu
 
-![Context Menu](https://cdn.discordapp.com/attachments/1217899672899944509/1277354650659717181/image.png?ex=66ccdcb8&is=66cb8b38&hm=2870c95f721b968ed35198c9c21a20ad69ef07a007cf47cf6a5462d913ce47d1)
-
 ```lua
 exports['LGF_UI']:ShowContextMenu(menuID, show)
 exports['LGF_UI']:IsUiOpen()
@@ -40,6 +38,9 @@ exports['LGF_UI']:CanOpenContext()
 --[[STATE BAG CONTEXT]] -- Returns true or false
 LocalPlayer.state.ContextOpen
 ```
+
+![Context Menu](https://cdn.discordapp.com/attachments/1217899672899944509/1277354650659717181/image.png?ex=66ccdcb8&is=66cb8b38&hm=2870c95f721b968ed35198c9c21a20ad69ef07a007cf47cf6a5462d913ce47d1)
+
 ## Notification System
 
 ```lua
@@ -67,8 +68,11 @@ exports['LGF_UI']:GetStateTextUI()
 exports['LGF_UI']:HideTextUI()
 ```
 
+![Text-UI](https://cdn.discordapp.com/attachments/1217899672899944509/1277355242828337292/keybind.png?ex=66ccdd46&is=66cb8bc6&hm=dac2f940b90f8dce0c3ee02abd4eb13fc468441b2ef49778a7c04c0ddd346796&)
+
 
 ## Dialog 
+
 
 ```lua
 -- Register a Dialog with params
@@ -80,7 +84,6 @@ exports['LGF_UI']:CloseDialog(dialogID)
 -- Get State Dialog , Return true or false
 exports['LGF_UI']:GetDialogState()
 ```
-
 
 ## ProgressBar 
 
@@ -96,7 +99,12 @@ exports['LGF_UI']:GetStateProgress()
 
 ```
 
+![Text-UI](https://cdn.discordapp.com/attachments/1217899672899944509/1277355606260580383/image.png?ex=66ccdd9c&is=66cb8c1c&hm=c6710a359100fac69e2040d304f8c6e33941b005a026d682d2ae3f3606185d1b&)
+
+
 ## Input 
+
+![Input](https://cdn.discordapp.com/attachments/1217899672899944509/1277355891108347974/image.png?ex=66ccdde0&is=66cb8c60&hm=1ca49b8f0535bcbf50a460ead95c57c550f50bff3d8f2febf393b7a87b7a4d78&)
 
 ```lua
 -- Register a input whit multi params
