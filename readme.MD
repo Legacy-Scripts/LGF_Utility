@@ -1,9 +1,27 @@
-  ![](https://img.shields.io/github/downloads/ENT510/LGF_UI/total?logo=github)
-  ![](https://img.shields.io/github/v/release/ENT510/LGF_UI?logo=github)
+# LGF_UI API
 
+![GitHub Downloads](https://img.shields.io/github/downloads/ENT510/LGF_UI/total?logo=github)
+![GitHub Release](https://img.shields.io/github/v/release/ENT510/LGF_UI?logo=github)
 
-## LGF_UI API
+**LGF_UI** is a comprehensive UI framework designed to provide a seamless user interface experience for your application. This API offers a variety of tools, including context menus, notification systems, text UIs, dialogs, progress bars, and input forms, all of which can be easily integrated into your project.
 
+## Installation
+
+If you need to edit the UI, you'll need Node.js installed on your machine. Here’s how you can set up your environment:
+
+1. **Install Dependencies**  
+   Navigate to your project directory and run the following command to install the necessary modules:
+```bash
+   npm i
+```
+
+2. **Build the Project**
+
+After editing or making changes to the UI, you can rebuild the project using:
+
+```bash
+npm run build
+```
 ## Context Menu
 
 ```lua
