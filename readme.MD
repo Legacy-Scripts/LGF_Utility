@@ -10,7 +10,7 @@
 If you need to edit the UI, you'll need Node.js installed on your machine. Here’s how you can set up your environment:
 
 1. **Install Dependencies**
-   Navigate to your project directory and run the following command to install the necessary modules:
+   Navigate "web" project directory and run the following command to install the necessary modules:
 ```bash
 npm i
 ```
