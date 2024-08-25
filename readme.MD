@@ -99,8 +99,6 @@ exports['LGF_UI']:GetStateProgress()
 
 ```
 
-![Text-UI](https://cdn.discordapp.com/attachments/1217899672899944509/1277355606260580383/image.png?ex=66ccdd9c&is=66cb8c1c&hm=c6710a359100fac69e2040d304f8c6e33941b005a026d682d2ae3f3606185d1b&)
-
 
 ## Input 
 
@@ -123,5 +121,7 @@ exports['LGF_UI']:GetInputState()
 exports['LGF_UI']:ForceCloseInput()
 
 ```
+
+![Input](https://cdn.discordapp.com/attachments/1217899672899944509/1277355606260580383/image.png?ex=66ccdd9c&is=66cb8c1c&hm=c6710a359100fac69e2040d304f8c6e33941b005a026d682d2ae3f3606185d1b&)
 
 
