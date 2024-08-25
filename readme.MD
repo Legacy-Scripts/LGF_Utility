@@ -22,6 +22,9 @@ After editing or making changes to the UI, you can rebuild the project using:
 npm run build
 ```
 
+For detailed documentation, visit the [LGF_UI Documentation on GitBook](https://legacy-script.gitbook.io/legacy-core/free-release/lgf-ui).
+
+
 ## Context Menu
 
 ```lua
