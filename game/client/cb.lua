@@ -20,7 +20,6 @@ function FNCS:TriggerSvCallback(name, ...)
     while responses[requestId] == nil do
         Citizen.Wait(0)
         if GetGameTimer() - startTime > timeout then
-            error(string.format)
             DEBUG:logError(("Timeout for invoker Resource: %s, Callback Name: %s"):format(invoker, name))
             responses[requestId] = nil
             break
