@@ -102,7 +102,7 @@ exports['LGF_UI']:GetStateProgress()
 
 ## Input 
 
-![Input](https://cdn.discordapp.com/attachments/1217899672899944509/1277355891108347974/image.png?ex=66ccdde0&is=66cb8c60&hm=1ca49b8f0535bcbf50a460ead95c57c550f50bff3d8f2febf393b7a87b7a4d78&)
+
 
 ```lua
 -- Register a input whit multi params
@@ -122,6 +122,4 @@ exports['LGF_UI']:ForceCloseInput()
 
 ```
 
-![Input](https://cdn.discordapp.com/attachments/1217899672899944509/1277355606260580383/image.png?ex=66ccdd9c&is=66cb8c1c&hm=c6710a359100fac69e2040d304f8c6e33941b005a026d682d2ae3f3606185d1b&)
-
-
+![Input](https://cdn.discordapp.com/attachments/1217899672899944509/1277355891108347974/image.png?ex=66ccdde0&is=66cb8c60&hm=1ca49b8f0535bcbf50a460ead95c57c550f50bff3d8f2febf393b7a87b7a4d78&)
