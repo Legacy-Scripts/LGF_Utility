@@ -1,4 +1,4 @@
-local CurrentResourceName = "LGF_UI"
+local CurrentResourceName = "LGF_Utility"
 local CurrentResourceVersion = GetResourceMetadata(CurrentResourceName, "version", 0) or "unknown"
 
 function CheckVersion(repoName)

@@ -1,10 +1,12 @@
-ClientCallback = {}
-FNCS = {}
+
+local ClientCallback = {}
+
 local currentRequestId = 0
 local serverCallbacks = {}
 local responses = {}
 
-function FNCS:TriggerSvCallback(name, ...)
+
+function LGF:TriggerServerCallback(name, ...)
     currentRequestId = currentRequestId + 1
     local requestId = currentRequestId
     local timeout = 5000
@@ -31,6 +33,7 @@ function FNCS:TriggerSvCallback(name, ...)
     return result
 end
 
+
 RegisterNetEvent("LGF_UI:client:CallbackResponse")
 AddEventHandler("LGF_UI:client:CallbackResponse", function(requestId, result)
     DEBUG:DebugValue("Received callback response for RequestId: %s, Result: %s", requestId, tostring(result))
@@ -42,6 +45,10 @@ AddEventHandler("LGF_UI:client:CallbackResponse", function(requestId, result)
     end
 end)
 
+
 exports('TriggerServerCallback', function(name, ...)
-    return FNCS:TriggerSvCallback(name, ...)
+    return LGF:TriggerServerCallback(name, ...)
 end)
+
+
+return ClientCallback

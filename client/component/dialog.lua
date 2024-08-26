@@ -104,6 +104,7 @@ end
 
 function OpenDialog(data)
     if _G.isUIOpen then return end
+
     SetNuiFocus(true, true)
     local dialogID = data.id
     registerDialog(dialogID, data.title, data.cards or {})
@@ -184,6 +185,8 @@ RegisterNUICallback('dialogClose', function(data, cb)
         cb('error')
     end
 end)
+
+
 local function GetStateDialog()
     return LocalPlayer.state.DialogOpened
 end

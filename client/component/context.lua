@@ -65,3 +65,4 @@ end)
 
 
 exports('RegisterContextMenu', registerMenu)
+
