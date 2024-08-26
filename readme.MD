@@ -26,22 +26,7 @@ local LGF = exports['LGF_Utility']:UtilityData()
 To include `LGF_Utility` directly in your project, add the following line to your fxmanifest.lua:
 
 ```lua
-fx_version 'adamant'
-game 'gta5'
-
-author 'ENT510'
-version '1.0.0'
-lua54 'yes'
-
 shared_scripts {
     '@LGF_Utility/init.lua'
-}
-
-client_scripts {
-    'client.lua'
-}
-
-server_scripts {
-    'server.lua'
 }
 ```
