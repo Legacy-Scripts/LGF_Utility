@@ -48,10 +48,10 @@ LocalPlayer.state.ContextOpen
 exports['LGF_Utility']:SendNotification(data)
 
 -- SERVER SIDE
-TriggerClientEvent('LGF_Utility:SendNotification', target, data)
+TriggerClientEvent('LGF_UI:SendNotification', target, data)
 
 -- CLIENT SIDE
-TriggerEvent('LGF_Utility:SendNotification', data)
+TriggerEvent('LGF_UI:SendNotification', data)
 ```
 
 ## TextUI
