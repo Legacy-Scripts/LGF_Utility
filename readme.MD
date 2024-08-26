@@ -1,9 +1,9 @@
-# LGF_UI API
+# LGF_Utility API
 
-![GitHub Downloads](https://img.shields.io/github/downloads/ENT510/LGF_UI/total?logo=github)
-![GitHub Release](https://img.shields.io/github/v/release/ENT510/LGF_UI?logo=github)
+![GitHub Downloads](https://img.shields.io/github/downloads/ENT510/LGF_Utility/total?logo=github)
+![GitHub Release](https://img.shields.io/github/v/release/ENT510/LGF_Utility?logo=github)
 
-**LGF_UI** is a comprehensive UI framework designed to provide a seamless user interface experience for your application. This API offers a variety of tools, including context menus, notification systems, text UIs, dialogs, progress bars, and input forms, all of which can be easily integrated into your project.
+**LGF_Utility** is a comprehensive UI framework designed to provide a seamless user interface experience for your application. This API offers a variety of tools, including context menus, notification systems, text UIs, dialogs, progress bars, and input forms, all of which can be easily integrated into your project.
 
 ## Installation
 
@@ -22,18 +22,18 @@ After editing or making changes to the UI, you can rebuild the project using:
 npm run build
 ```
 
-For detailed documentation, visit the [LGF_UI Documentation on GitBook](https://legacy-script.gitbook.io/legacy-core/free-release/lgf-ui).
+For detailed documentation, visit the [LGF_Utility Documentation on GitBook](https://legacy-script.gitbook.io/legacy-core/free-release/lgf-ui).
 
 
 ## Context Menu
 
 ```lua
-exports['LGF_UI']:ShowContextMenu(menuID, show)
-exports['LGF_UI']:IsUiOpen()
-exports['LGF_UI']:RegisterContextMenu(menuID, menuTitle, data)
-exports['LGF_UI']:CloseContext(menuID)
-exports['LGF_UI']:ForceCloseContext()
-exports['LGF_UI']:CanOpenContext()
+exports['LGF_Utility']:ShowContextMenu(menuID, show)
+exports['LGF_Utility']:IsUiOpen()
+exports['LGF_Utility']:RegisterContextMenu(menuID, menuTitle, data)
+exports['LGF_Utility']:CloseContext(menuID)
+exports['LGF_Utility']:ForceCloseContext()
+exports['LGF_Utility']:CanOpenContext()
 
 --[[STATE BAG CONTEXT]] -- Returns true or false
 LocalPlayer.state.ContextOpen
@@ -45,13 +45,13 @@ LocalPlayer.state.ContextOpen
 
 ```lua
 -- CLIENT SIDE
-exports['LGF_UI']:SendNotification(data)
+exports['LGF_Utility']:SendNotification(data)
 
 -- SERVER SIDE
-TriggerClientEvent('LGF_UI:SendNotification', target, data)
+TriggerClientEvent('LGF_Utility:SendNotification', target, data)
 
 -- CLIENT SIDE
-TriggerEvent('LGF_UI:SendNotification', data)
+TriggerEvent('LGF_Utility:SendNotification', data)
 ```
 
 ## TextUI
@@ -59,13 +59,13 @@ TriggerEvent('LGF_UI:SendNotification', data)
 ```lua
 
 -- Open the text UI with specific data
-exports['LGF_UI']:OpenTextUI(data)
+exports['LGF_Utility']:OpenTextUI(data)
 
 -- Get the state of the text UI (whether it is currently open or not)
-exports['LGF_UI']:GetStateTextUI()
+exports['LGF_Utility']:GetStateTextUI()
 
 -- Hide the text UI
-exports['LGF_UI']:HideTextUI()
+exports['LGF_Utility']:HideTextUI()
 ```
 
 ![Text-UI](https://cdn.discordapp.com/attachments/1217899672899944509/1277355242828337292/keybind.png?ex=66ccdd46&is=66cb8bc6&hm=dac2f940b90f8dce0c3ee02abd4eb13fc468441b2ef49778a7c04c0ddd346796&)
@@ -76,26 +76,26 @@ exports['LGF_UI']:HideTextUI()
 
 ```lua
 -- Register a Dialog with params
-exports['LGF_UI']:RegisterDialog(data)
+exports['LGF_Utility']:RegisterDialog(data)
 
 -- Close Specific Dialog
-exports['LGF_UI']:CloseDialog(dialogID)
+exports['LGF_Utility']:CloseDialog(dialogID)
 
 -- Get State Dialog , Return true or false
-exports['LGF_UI']:GetDialogState()
+exports['LGF_Utility']:GetDialogState()
 ```
 
 ## ProgressBar 
 
 ```lua
 -- Register a Progressbar whit params
-exports['LGF_UI']:CreateProgressBar()
+exports['LGF_Utility']:CreateProgressBar()
 
 -- Disable Current progress
-exports['LGF_UI']:DisableProgressBar()
+exports['LGF_Utility']:DisableProgressBar()
 
 -- Get State of Curren ProgressBar (return true or false)
-exports['LGF_UI']:GetStateProgress()
+exports['LGF_Utility']:GetStateProgress()
 
 ```
 
@@ -106,19 +106,19 @@ exports['LGF_UI']:GetStateProgress()
 
 ```lua
 -- Register a input whit multi params
-exports['LGF_UI']:RegisterInput(id, title, data)
+exports['LGF_Utility']:RegisterInput(id, title, data)
 
 -- Close a specific input
-exports['LGF_UI']:CloseInput(id)
+exports['LGF_Utility']:CloseInput(id)
 
 -- Show a specific Input (Must be registered)
-exports['LGF_UI']:ShowInput(id)
+exports['LGF_Utility']:ShowInput(id)
 
 -- Get State Input , Return true or false
-exports['LGF_UI']:GetInputState()
+exports['LGF_Utility']:GetInputState()
 
 -- Close all Input Opened
-exports['LGF_UI']:ForceCloseInput()
+exports['LGF_Utility']:ForceCloseInput()
 
 ```
 
