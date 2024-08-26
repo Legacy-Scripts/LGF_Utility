@@ -21,7 +21,7 @@ To access **LGF_Utility** functions and data, you can import it using the export
 local LGF = exports['LGF_Utility']:UtilityData()
 ```
 
-Importing Via Module
+### Importing Via Module
 
 To include `LGF_Utility` directly in your project, add the following line to your fxmanifest.lua:
 
