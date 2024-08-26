@@ -11,6 +11,7 @@ function DEBUG:logError(message, ...)
     print(("^1[ERROR]^7 " .. message):format(...))
 end
 
+
 function LGF:GetDependency(resource_name, required_version)
     local state = GetResourceState(resource_name)
 
