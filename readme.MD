@@ -3,123 +3,45 @@
 ![GitHub Downloads](https://img.shields.io/github/downloads/ENT510/LGF_Utility/total?logo=github)
 ![GitHub Release](https://img.shields.io/github/v/release/ENT510/LGF_Utility?logo=github)
 
-**LGF_Utility** is a comprehensive UI framework designed to provide a seamless user interface experience for your application. This API offers a variety of tools, including context menus, notification systems, text UIs, dialogs, progress bars, and input forms, all of which can be easily integrated into your project.
+**LGF_Utility** is a versatile library designed to facilitate the development of modules, functions, exports, and UI components within your project. It provides a unified framework for managing various aspects of your application, making it easier to build complex systems and interfaces.
 
-## Installation
+## Features
 
-If you need to edit the UI, you'll need Node.js installed on your machine. Here’s how you can set up your environment:
+- **Modular Functionality**: Manage and utilize reusable modules.
+- **Exports System**: Share functions and data across different parts of your project.
+- **UI Components**: Create and manage user interfaces seamlessly.
 
-1. **Install Dependencies**
-   Navigate "web" project directory and run the following command to install the necessary modules:
-```bash
-npm i
-```
+## Integration
 
-2. **Build the Project**
-After editing or making changes to the UI, you can rebuild the project using:
+### Importing via Export
 
-```bash
-npm run build
-```
-
-For detailed documentation, visit the [LGF_Utility Documentation on GitBook](https://legacy-script.gitbook.io/legacy-core/free-release/lgf-ui).
-
-
-## Context Menu
+To access **LGF_Utility** functions and data, you can import it using the export system:
 
 ```lua
-exports['LGF_Utility']:ShowContextMenu(menuID, show)
-exports['LGF_Utility']:IsUiOpen()
-exports['LGF_Utility']:RegisterContextMenu(menuID, menuTitle, data)
-exports['LGF_Utility']:CloseContext(menuID)
-exports['LGF_Utility']:ForceCloseContext()
-exports['LGF_Utility']:CanOpenContext()
-
---[[STATE BAG CONTEXT]] -- Returns true or false
-LocalPlayer.state.ContextOpen
+local LGF = exports['LGF_Utility']:UtilityData()
 ```
 
-![Context Menu](https://cdn.discordapp.com/attachments/1217899672899944509/1277354650659717181/image.png?ex=66ccdcb8&is=66cb8b38&hm=2870c95f721b968ed35198c9c21a20ad69ef07a007cf47cf6a5462d913ce47d1)
+Importing Via Module
 
-## Notification System
+To include `LGF_Utility` directly in your project, add the following line to your fxmanifest.lua:
 
 ```lua
--- CLIENT SIDE
-exports['LGF_Utility']:SendNotification(data)
+fx_version 'adamant'
+game 'gta5'
 
--- SERVER SIDE
-TriggerClientEvent('LGF_UI:SendNotification', target, data)
+author 'ENT510'
+version '1.0.0'
+lua54 'yes'
 
--- CLIENT SIDE
-TriggerEvent('LGF_UI:SendNotification', data)
+shared_scripts {
+    '@LGF_Utility/init.lua'
+}
+
+client_scripts {
+    'client.lua'
+}
+
+server_scripts {
+    'server.lua'
+}
 ```
-
-## TextUI
-
-```lua
-
--- Open the text UI with specific data
-exports['LGF_Utility']:OpenTextUI(data)
-
--- Get the state of the text UI (whether it is currently open or not)
-exports['LGF_Utility']:GetStateTextUI()
-
--- Hide the text UI
-exports['LGF_Utility']:HideTextUI()
-```
-
-![Text-UI](https://cdn.discordapp.com/attachments/1217899672899944509/1277355242828337292/keybind.png?ex=66ccdd46&is=66cb8bc6&hm=dac2f940b90f8dce0c3ee02abd4eb13fc468441b2ef49778a7c04c0ddd346796&)
-
-
-## Dialog 
-
-
-```lua
--- Register a Dialog with params
-exports['LGF_Utility']:RegisterDialog(data)
-
--- Close Specific Dialog
-exports['LGF_Utility']:CloseDialog(dialogID)
-
--- Get State Dialog , Return true or false
-exports['LGF_Utility']:GetDialogState()
-```
-
-## ProgressBar 
-
-```lua
--- Register a Progressbar whit params
-exports['LGF_Utility']:CreateProgressBar()
-
--- Disable Current progress
-exports['LGF_Utility']:DisableProgressBar()
-
--- Get State of Curren ProgressBar (return true or false)
-exports['LGF_Utility']:GetStateProgress()
-
-```
-
-
-## Input 
-
-
-
-```lua
--- Register a input whit multi params
-exports['LGF_Utility']:RegisterInput(id, title, data)
-
--- Close a specific input
-exports['LGF_Utility']:CloseInput(id)
-
--- Show a specific Input (Must be registered)
-exports['LGF_Utility']:ShowInput(id)
-
--- Get State Input , Return true or false
-exports['LGF_Utility']:GetInputState()
-
--- Close all Input Opened
-exports['LGF_Utility']:ForceCloseInput()
-
-```
-
-![Input](https://cdn.discordapp.com/attachments/1217899672899944509/1277355891108347974/image.png?ex=66ccdde0&is=66cb8c60&hm=1ca49b8f0535bcbf50a460ead95c57c550f50bff3d8f2febf393b7a87b7a4d78&)
