@@ -69,4 +69,4 @@ exports('UtilityData', function()
 end)
 
 
-return _ENV.LGF
+return _G.LGF
