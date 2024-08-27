@@ -6,7 +6,7 @@ use_fxv2_oal 'yes'
 author 'ENT510'
 description 'UI library for fivem'
 
-shared_script {'init.lua'}
+shared_script { "@ox_lib/init.lua",'init.lua'}
 
 shared_scripts { 'shared/Config.lua','shared/Shared.lua',}
 client_scripts {'client/**/*','game/client/*.lua',}

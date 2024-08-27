@@ -3,7 +3,7 @@ local loaded_modules = {}
 if not _G.LGF then _G.LGF = {} end
 
 
-function LGF:GetPath()
+function LGF:GetContext()
     local SERVER_SIDE = IsDuplicityVersion()
     local CLIENT_SIDE = not SERVER_SIDE
 
@@ -16,21 +16,52 @@ function LGF:GetPath()
     end
 end
 
-function LGF:LuaLoader(module_name)
-    local resource_name = GetInvokingResource() or "LGF_Utility"
+function LGF:LuaLoader(module_name, resource)
+    local resource_name = resource or GetInvokingResource()
 
     local file_name = module_name .. ".lua"
+    
     local file_content = LoadResourceFile(resource_name, file_name)
-    if not file_content then error(string.format( "Error loading file '%s' from resource '%s': File does not exist or cannot be read.", file_name,resource_name)) end
+
+    if not file_content then error(string.format("Error loading file '%s' from resource '%s': File does not exist or cannot be read.", file_name, resource_name)) end
 
     local func, compile_err = load(file_content, "@" .. file_name)
+
     if not func then error(string.format("Error compiling module '%s': %s", module_name, compile_err)) end
 
     local success, result = pcall(func)
+
     if not success then error(string.format("Error executing module '%s': %s", module_name, result)) end
 
-    loaded_modules[module_name] = result
     return result
+end
+
+-- require = function(module_name)
+--     return LGF:LuaLoader(module_name)
+-- end
+
+
+local Framework = {
+    { ResourceName = "LEGACYCORE",  Object = "GetCoreData" },
+    { ResourceName = "es_extended", Object = "getSharedObject" },
+    { ResourceName = "qbx_core",    Object = "GetCoreObject" },
+}
+
+
+function LGF:GetFramework()
+    for I = 1, #Framework do
+        local DATA = Framework[I]
+        if GetResourceState(DATA.ResourceName):find("started") then
+            local success, result = pcall(function()
+                return exports[DATA.ResourceName][DATA.Object]()
+            end)
+            if success then
+                return result
+            else
+                DEBUG:logError("Failed to Get Object from %s, Result %s", DATA.ResourceName, result)
+            end
+        end
+    end
 end
 
 exports('UtilityData', function()
@@ -38,4 +69,4 @@ exports('UtilityData', function()
 end)
 
 
-
+return _ENV.LGF
