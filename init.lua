@@ -1,7 +1,5 @@
-local loaded_modules = {}
-
-if not _G.LGF then _G.LGF = {} end
-
+LGF = {}
+LGF.Player = {}
 
 function LGF:GetContext()
     local SERVER_SIDE = IsDuplicityVersion()
@@ -18,20 +16,19 @@ end
 
 function LGF:LuaLoader(module_name, resource)
     local resource_name = resource or GetInvokingResource()
-
     local file_name = module_name .. ".lua"
-    
     local file_content = LoadResourceFile(resource_name, file_name)
 
-    if not file_content then error(string.format("Error loading file '%s' from resource '%s': File does not exist or cannot be read.", file_name, resource_name)) end
+    if not file_content then
+        error(string.format("Error loading file '%s' from resource '%s': File does not exist or cannot be read.",
+            file_name, resource_name))
+    end
 
     local func, compile_err = load(file_content, "@" .. file_name)
-
-    if not func then error(string.format("Error compiling module '%s': %s", module_name, compile_err)) end
+    if not func then error(string.format("Error compiling module '%s': %s", module_name, compile_err), 2) end
 
     local success, result = pcall(func)
-
-    if not success then error(string.format("Error executing module '%s': %s", module_name, result)) end
+    if not success then error(string.format("Error executing module '%s': %s", module_name, result), 2) end
 
     return result
 end
@@ -52,21 +49,37 @@ function LGF:GetFramework()
     for I = 1, #Framework do
         local DATA = Framework[I]
         if GetResourceState(DATA.ResourceName):find("started") then
-            local success, result = pcall(function()
+            local success, frame = pcall(function()
                 return exports[DATA.ResourceName][DATA.Object]()
             end)
             if success then
-                return result
+                return frame, DATA.ResourceName
             else
-                DEBUG:logError("Failed to Get Object from %s, Result %s", DATA.ResourceName, result)
+                LGF:logError("Failed to Get Object from %s, Result %s", DATA.ResourceName, frame)
             end
         end
     end
 end
 
+if LGF:GetContext() == "client" then
+    function LGF.Player:Ped()
+        return PlayerPedId()
+    end
+
+    function LGF.Player:Index()
+        return GetPlayerServerId(NetworkGetPlayerIndexFromPed(self:Ped()))
+    end
+
+    function LGF.Player:PlayerId()
+        return PlayerId()
+    end
+
+    function LGF.Player:Coords()
+        return GetEntityCoords(self:Ped())
+    end
+end
+
+
 exports('UtilityData', function()
     return _G.LGF
 end)
-
-
-return _G.LGF

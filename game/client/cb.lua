@@ -1,10 +1,23 @@
-
 local ClientCallback = {}
-
+local clientCallbacks = {}
 local currentRequestId = 0
 local serverCallbacks = {}
 local responses = {}
 
+function LGF:RegisterClientCallback(name, cb)
+    clientCallbacks[name] = cb
+end
+
+function LGF:TriggerClientCallback(name, ...)
+    local invoker = GetInvokingResource()
+    if clientCallbacks[name] then
+        local result = clientCallbacks[name](...)
+        return result
+    else
+        LGF:logError("Client Callback Not Found. Name: %s , Invoker: %s", name, invoker)
+        return nil
+    end
+end
 
 function LGF:TriggerServerCallback(name, ...)
     currentRequestId = currentRequestId + 1
@@ -22,7 +35,7 @@ function LGF:TriggerServerCallback(name, ...)
     while responses[requestId] == nil do
         Citizen.Wait(0)
         if GetGameTimer() - startTime > timeout then
-            DEBUG:logError(("Timeout for invoker Resource: %s, Callback Name: %s"):format(invoker, name))
+            LGF:logError(("Timeout for invoker Resource: %s, Callback Name: %s"):format(invoker, name))
             responses[requestId] = nil
             break
         end
@@ -33,21 +46,28 @@ function LGF:TriggerServerCallback(name, ...)
     return result
 end
 
-
 RegisterNetEvent("LGF_UI:client:CallbackResponse")
 AddEventHandler("LGF_UI:client:CallbackResponse", function(requestId, result)
-    DEBUG:DebugValue("Received callback response for RequestId: %s, Result: %s", requestId, tostring(result))
+    LGF:DebugValue("Received callback response for RequestId: %s, Result: %s", requestId, tostring(result))
     if serverCallbacks[requestId] then
         serverCallbacks[requestId](result)
         serverCallbacks[requestId] = nil
     else
-        DEBUG:DebugValue("Callback function not found for requestId:", requestId)
+        LGF:DebugValue("Callback function not found for requestId:", requestId)
     end
 end)
 
 
 exports('TriggerServerCallback', function(name, ...)
     return LGF:TriggerServerCallback(name, ...)
+end)
+
+exports('RegisterClientCallback', function(name, fun)
+    return LGF:RegisterClientCallback(name, fun)
+end)
+
+exports('TriggerClientCallback', function(name, ...)
+    return LGF:TriggerClientCallback(name, ...)
 end)
 
 

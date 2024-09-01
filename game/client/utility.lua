@@ -28,5 +28,4 @@ end
 
 
 
-
 exports("RequestEntityModel", function(model, timeout) return LGF:RequestEntityModel(model, timeout) end)

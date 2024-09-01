@@ -14,7 +14,7 @@ AddEventHandler("LGF_UI:server:Callback", function(name, requestId, invoker, ...
     if ServerCallback[name] then
         result = ServerCallback[name](source, ...)
     else
-        DEBUG:logError("Callback Not Found. Name: %s, RequestId: %s, Invoking Resource: %s", name, requestId,invokingResource)
+        LGF:logError("Callback Not Found. Name: %s, RequestId: %s, Invoking Resource: %s", name, requestId,invokingResource)
     end
 
     TriggerClientEvent("LGF_UI:client:CallbackResponse", source, requestId, result)
