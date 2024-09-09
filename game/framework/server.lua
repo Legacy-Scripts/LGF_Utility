@@ -6,7 +6,6 @@ local function ERR_CORE(res)
     return LGF:logError("Unsupported framework: %s", res)
 end
 
-
 function LGF.Core:GetPlayer(target)
     if frameworkName == "LEGACYCORE" then
         return obj.DATA:GetPlayerDataBySlot(target)
@@ -22,7 +21,7 @@ end
 function LGF.Core:GetGroup(target)
     local PlayerData = LGF.Core:GetPlayer(target)
     local playerGroup = nil
-
+    if not PlayerData then return end
     if frameworkName == "LEGACYCORE" then
         playerGroup = PlayerData.playerGroup
     elseif frameworkName == "es_extended" then
@@ -34,7 +33,6 @@ function LGF.Core:GetGroup(target)
             playerGroup = 'god'
         end
     end
-
     return playerGroup
 end
 

@@ -174,7 +174,3 @@ exports("CreateEntityVehicle", function(data) return LGF:CreateEntityVehicle(dat
 exports("GetAllEntityPed", function() return LGF:GetAllEntityPed() end)
 exports("GetAllEntityObjects", function() return LGF:GetAllEntityObjects() end)
 exports("GetAllEntityVehicles", function() return LGF:GetAllEntityVehicles() end)
-
-
-
-return LGF

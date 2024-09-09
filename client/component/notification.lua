@@ -30,6 +30,7 @@ end
 
 
 RegisterNetEvent('LGF_UI:SendNotification', function(data)
+    print(json.encode(data))
     showNotification({
         id = data.id,
         title = data.title,

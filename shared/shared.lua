@@ -29,7 +29,6 @@ end
 
 function LGF:SafeAsyncWait(delay, func)
     assert(type(delay) == "number" and delay > 0, "Delay must be a positive number.")
-    assert(type(func) == "function", "Second argument must be a function.")
 
     local co = coroutine.running()
 

@@ -60,4 +60,3 @@ function LGF.string:GetGeneratedString()
     return _G.GENERATEDSTRING
 end
 
-print(LGF.string:RandStr(5, "aln"))

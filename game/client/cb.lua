@@ -48,7 +48,7 @@ end
 
 RegisterNetEvent("LGF_UI:client:CallbackResponse")
 AddEventHandler("LGF_UI:client:CallbackResponse", function(requestId, result)
-    LGF:DebugValue("Received callback response for RequestId: %s, Result: %s", requestId, tostring(result))
+    -- LGF:DebugValue("Received callback response for RequestId: %s, Result: %s", requestId, tostring(result))
     if serverCallbacks[requestId] then
         serverCallbacks[requestId](result)
         serverCallbacks[requestId] = nil
