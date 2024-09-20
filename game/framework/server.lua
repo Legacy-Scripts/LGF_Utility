@@ -48,7 +48,7 @@ function LGF.Core:GetIdentifier(target)
 end
 
 LGF:RegisterServerCallback('LGF_Utility:Bridge:GetPlayerGroup', function(source)
-    if not source or source <= 0 or type(source) ~= "number" then return ("Invalid source %S ?"):format(source) end
+    if not source or source <= 0 or type(source) ~= "number" then return ("Invalid source %s ?"):format(source) end
     if not GetPlayerName(source) then return "Player not found" end
     return LGF.Core:GetGroup(source)
 end)
