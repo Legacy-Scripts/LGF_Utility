@@ -78,7 +78,6 @@ end
 
 RegisterNuiCallback('input:Close', function(data, cb)
     cb('ok')
-    Wait(500)
     closeInputForm(data.inputID)
     CB:resolve(nil)
     LocalPlayer.state.InputOpened = false
@@ -121,7 +120,6 @@ RegisterNuiCallback('input:Submit', function(data, cb)
     local input = INPUT_FIELDS[data.inputID]
     if input then
         local success = input:submitFields(data.fields)
-        Wait(1500)
         local Focused = IsNuiFocused()
         if Focused then
             SetNuiFocus(false, false)
