@@ -13,7 +13,6 @@ LocalPlayer.state.textUiOpen = false
 
 ---@param data TextUIData
 function TEXTUI:OpenTextUI(data)
-
     local message = data.message
     local colorProgress = data.colorProgress or "rgba(54, 156, 129, 0.381)"
     local keyBind = data.keyBind or ""

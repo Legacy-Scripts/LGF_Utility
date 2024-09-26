@@ -195,6 +195,7 @@ const InputComponent = () => {
             style={inputStyles}
             required={field.required}
             size="xs"
+            withinPortal={true}
             disabled={isDisabled}
           />
         );
@@ -244,7 +245,6 @@ const InputComponent = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 1000,
             ...styles,
           }}
         >
@@ -314,8 +314,7 @@ const InputComponent = () => {
                     </Col>
                   ))
                 ) : (
-                  <Text tt="uppercase" color="red">
-                    Invalid fields data
+                  <Text tt="uppercase" >
                   </Text>
                 )}
               </Grid>
