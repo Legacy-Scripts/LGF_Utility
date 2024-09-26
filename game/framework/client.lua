@@ -5,8 +5,6 @@ local function ERR_CORE(res)
     return LGF:logError("Unsupported framework: %s", res)
 end
 
-
-
 function LGF.Core:GetPlayer()
     if frameworkName == "LEGACYCORE" then
         return obj.DATA:GetPlayerObject() or LocalPlayer.state.GetPlayerObject
@@ -73,10 +71,6 @@ function LGF.Core:GetGroup()
     local response = LGF:TriggerServerCallback("LGF_Utility:Bridge:GetPlayerGroup")
     return response
 end
-
-print(LGF.Core:GetGroup(), LGF.Core:GetName(), LGF.Core:GetJob(), LGF.Core:GetPlayer(), LGF.Core:GetIdentifier(),
-    LGF.Core:GetGender())
-
 
 return {
     GetPlayer = LGF.Core.GetPlayer,

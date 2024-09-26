@@ -17,9 +17,11 @@ function LGF:CreateEntityPed(data)
     local loaded, modelHash = self:RequestEntityModel(model, 3000)
     if not loaded then return end
 
-    local createdPed = CreatePed(4, modelHash, position.x, position.y, position.z - 1, position.w or 0.0, isNetworked,
-        true)
-    TaskStartScenarioInPlace(createdPed, scenario, -1, true)
+    local createdPed = CreatePed(4, modelHash, position.x, position.y, position.z - 1, position.w or 0.0, isNetworked, true)
+    if scenario then
+        TaskStartScenarioInPlace(createdPed, scenario, -1, true)
+    end
+
     SetEntityInvincible(createdPed, invincible)
     SetBlockingOfNonTemporaryEvents(createdPed, blockingEvents)
 
@@ -59,7 +61,7 @@ function LGF:CreateEntityObject(data)
     SetModelAsNoLongerNeeded(modelHash)
     NetworkRegisterEntityAsNetworked(createdObject)
     local NETID = NetworkGetNetworkIdFromEntity(createdObject)
-    
+
     if freeze then
         FreezeEntityPosition(createdObject, freeze)
     end

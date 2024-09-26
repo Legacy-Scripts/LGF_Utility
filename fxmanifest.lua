@@ -12,8 +12,19 @@ shared_scripts {
     'shared/*.lua',
 }
 
-client_scripts { 'client/**/*', 'game/client/*.lua', 'game/framework/client.lua', }
-server_scripts { '@oxmysql/lib/MySQL.lua', 'server/**/*', 'game/server/*.lua','game/framework/server.lua',  }
+client_scripts {
+    'client/**/*',
+    'game/client/*.lua',
+    'game/client/class/*.lua',
+    'game/framework/client.lua',
+}
+
+server_scripts {
+    '@oxmysql/lib/MySQL.lua',
+    'server/**/*',
+    'game/server/*.lua',
+    'game/framework/server.lua',
+}
 
 files { 'web/build/index.html', 'web/build/**/*', }
 ui_page 'web/build/index.html'

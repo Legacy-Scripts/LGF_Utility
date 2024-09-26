@@ -35,7 +35,7 @@ end
 local function GenerateVehicleMenu(vehicle)
     local MenuID = 'vehicle_menu_' .. vehicle.Label
     local TITLE = vehicle.Label
-    exports['LGF_UI']:RegisterContextMenu(MenuID, TITLE, {
+    exports['LGF_Utility']:RegisterContextMenu(MenuID, TITLE, {
         {
             labelButton = "Spawn",
             label = "Spawn Vehicle",
@@ -44,7 +44,7 @@ local function GenerateVehicleMenu(vehicle)
 
             onSelect = function()
                 CreateVehicleTest(vehicle.model)
-                exports['LGF_UI']:CloseContext(MenuID)
+                exports['LGF_Utility']:CloseContext(MenuID)
             end
         },
         {
@@ -65,7 +65,7 @@ local function GenerateVehicleMenu(vehicle)
             end
         }
     })
-    exports['LGF_UI']:ShowContextMenu(MenuID, true)
+    exports['LGF_Utility']:ShowContextMenu(MenuID, true)
 end
 
 function GenerateMainMenu()
@@ -100,8 +100,8 @@ function GenerateMainMenu()
         })
     end
 
-    exports['LGF_UI']:RegisterContextMenu('main_menu', 'Select Vehicle', options)
-    exports['LGF_UI']:ShowContextMenu('main_menu', true)
+    exports['LGF_Utility']:RegisterContextMenu('main_menu', 'Select Vehicle', options)
+    exports['LGF_Utility']:ShowContextMenu('main_menu', true)
 end
 
 exports.ox_target:addGlobalVehicle({
@@ -110,7 +110,7 @@ exports.ox_target:addGlobalVehicle({
         icon = 'fa-solid fa-car',
         label = 'Debug Vehicle',
         onSelect = function()
-            if not exports['LGF_UI']:CanOpenContext() then return end
+            if not exports['LGF_Utility']:CanOpenContext() then return end
             GenerateMainMenu()
         end
     },
@@ -127,7 +127,7 @@ exports.ox_target:addGlobalVehicle({
 -- })
 
 -- function point:onEnter()
---     exports['LGF_UI']:OpenTextUI({
+--     exports['LGF_Utility']:OpenTextUI({
 --         message = "[E] - OPEN LIFE STYLE SELECTOR",
 --         position = "center-right",
 --         useKeybind = false,
@@ -146,7 +146,7 @@ exports.ox_target:addGlobalVehicle({
 
 --     if self.currentDistance < 3 and IsControlJustReleased(0, 38) then
 --         OpenDialogTest()
---         exports['LGF_UI']:CloseTextUI()
+--         exports['LGF_Utility']:CloseTextUI()
 --     end
 -- end
 
@@ -174,7 +174,7 @@ local LifeStyle = {
 }
 
 function OpenDialogTest()
-    exports['LGF_UI']:RegisterDialog({
+    exports['LGF_Utility']:RegisterDialog({
         id = 'lifeStyle',
         title = 'Life Style',
         enableCam = true,
@@ -190,9 +190,9 @@ function OpenDialogTest()
                     local items = LifeStyle.Criminal
                         ('Criminal Life Selected')
                     for item, amount in pairs(items) do
-                        TriggerServerEvent('LGF_UI:Test:GetStyleItems', item, amount)
+                        TriggerServerEvent('LGF_Utility:Test:GetStyleItems', item, amount)
                     end
-                    exports['LGF_UI']:CloseDialog("lifeStyle")
+                    exports['LGF_Utility']:CloseDialog("lifeStyle")
                 end,
             },
             {
@@ -204,9 +204,9 @@ function OpenDialogTest()
                     print('Police Life Selected')
                     local items = LifeStyle.Police
                     for item, amount in pairs(items) do
-                        TriggerServerEvent('LGF_UI:Test:GetStyleItems', item, amount)
+                        TriggerServerEvent('LGF_Utility:Test:GetStyleItems', item, amount)
                     end
-                    exports['LGF_UI']:CloseDialog("lifeStyle")
+                    exports['LGF_Utility']:CloseDialog("lifeStyle")
                 end,
             },
             {
@@ -218,9 +218,9 @@ function OpenDialogTest()
                     local items = LifeStyle.Civilian
                     print('Civilian Life Selected')
                     for item, amount in pairs(items) do
-                        TriggerServerEvent('LGF_UI:Test:GetStyleItems', item, amount)
+                        TriggerServerEvent('LGF_Utility:Test:GetStyleItems', item, amount)
                     end
-                    exports['LGF_UI']:CloseDialog("lifeStyle")
+                    exports['LGF_Utility']:CloseDialog("lifeStyle")
                 end,
             },
             {
@@ -232,9 +232,9 @@ function OpenDialogTest()
                     print('Medical Life Selected')
                     local items = LifeStyle.Medical
                     for item, amount in pairs(items) do
-                        TriggerServerEvent('LGF_UI:Test:GetStyleItems', item, amount)
+                        TriggerServerEvent('LGF_Utility:Test:GetStyleItems', item, amount)
                     end
-                    exports['LGF_UI']:CloseDialog("lifeStyle")
+                    exports['LGF_Utility']:CloseDialog("lifeStyle")
                 end,
             }
 
@@ -244,7 +244,7 @@ end
 
 RegisterCommand('testNotifications', function()
     -- Notification 1: Success
-    TriggerEvent('LGF_UI:SendNotification', {
+    TriggerEvent('LGF_Utility:SendNotification', {
         id = "success1",
         title = "Success",
         message = "Operation completed successfully.",
@@ -254,7 +254,7 @@ RegisterCommand('testNotifications', function()
     })
 
     -- Notification 2: Error
-    TriggerEvent('LGF_UI:SendNotification', {
+    TriggerEvent('LGF_Utility:SendNotification', {
         id = "error1",
         title = "Error",
         message = "An error occurred during the operation.",
@@ -264,7 +264,7 @@ RegisterCommand('testNotifications', function()
     })
 
     -- Notification 3: Progress
-    TriggerEvent('LGF_UI:SendNotification', {
+    TriggerEvent('LGF_Utility:SendNotification', {
         id = "progress1",
         title = "Processing",
         message = "Your request is being processed.",
@@ -274,7 +274,7 @@ RegisterCommand('testNotifications', function()
     })
 
     -- Notification 4: Line
-    TriggerEvent('LGF_UI:SendNotification', {
+    TriggerEvent('LGF_Utility:SendNotification', {
         id = "line1",
         title = "Update Available",
         message = "A new update is available. Please download it.",
@@ -284,7 +284,7 @@ RegisterCommand('testNotifications', function()
     })
 
     -- Notification 5: Custom
-    TriggerEvent('LGF_UI:SendNotification', {
+    TriggerEvent('LGF_Utility:SendNotification', {
         id = "custom1",
         title = "Welcome",
         message = "Welcome to the server! Have a great time.",
@@ -298,7 +298,7 @@ end)
 
 local function registerInputForm()
     local inputData = {}
-    local INPUT_REGISTERED = exports['LGF_UI']:RegisterInput('example_form', 'Example Input Form', {
+    local INPUT_REGISTERED = exports['LGF_Utility']:RegisterInput('example_form', 'Example Input Form', {
         {
             label = 'Name',
             placeholder = 'Enter your name',

@@ -77,6 +77,7 @@ if LGF:GetContext() == "client" then
     function LGF.Player:Coords()
         return GetEntityCoords(self:Ped())
     end
+    
 end
 
 
