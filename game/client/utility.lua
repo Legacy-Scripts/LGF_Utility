@@ -26,5 +26,28 @@ function LGF:RequestEntityModel(model, timeout)
     end
 end
 
-exports("RequestEntityModel", function(model, timeout) return LGF:RequestEntityModel(model, timeout) end)
+function LGF:DrawText3D(data)
+    local isOnScreen, screenX, screenY = World3dToScreen2d(data.position.x, data.position.y, data.position.z + 0.5)
+    local camX, camY, camZ = table.unpack(GetGameplayCamCoords())
+    local distanceScale = (1 / #(vector3(camX, camY, camZ) - data.position)) * 2
+    local fovScale = (1 / GetGameplayCamFov()) * 100
+    distanceScale = distanceScale * fovScale
 
+    if isOnScreen then
+        SetTextScale(0.0, 0.35 * distanceScale)
+        SetTextFont(0)
+        SetTextProportional(true)
+        SetTextColour(data.color.red, data.color.green, data.color.blue, 255)
+        SetTextDropshadow(0, 0, 0, 0, 255)
+        SetTextEdge(2, 0, 0, 0, 150)
+        SetTextDropShadow()
+        SetTextOutline()
+        SetTextEntry("STRING")
+        SetTextCentre(true)
+        AddTextComponentString(data.message)
+        DrawText(screenX, screenY)
+    end
+end
+
+exports("DrawText3D", function(data) return LGF:DrawText3D(data) end)
+exports("RequestEntityModel", function(model, timeout) return LGF:RequestEntityModel(model, timeout) end)
