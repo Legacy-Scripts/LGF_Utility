@@ -10,6 +10,7 @@
 - **Modular Functionality**: Manage and utilize reusable modules.
 - **Exports System**: Share functions and data across different parts of your project.
 - **UI Components**: Create and manage user interfaces seamlessly.
+- **Bridge Framework**: Built-in bridge for various frameworks.
 
 ## Integration
 
