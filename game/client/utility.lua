@@ -37,7 +37,7 @@ function LGF:DrawText3D(data)
         SetTextScale(0.0, 0.35 * distanceScale)
         SetTextFont(0)
         SetTextProportional(true)
-        SetTextColour(data.color.red, data.color.green, data.color.blue, 255)
+        SetTextColour(data.color[1], data.color[2], data.color[3], data.color[4]) 
         SetTextDropshadow(0, 0, 0, 0, 255)
         SetTextEdge(2, 0, 0, 0, 150)
         SetTextDropShadow()
@@ -48,6 +48,7 @@ function LGF:DrawText3D(data)
         DrawText(screenX, screenY)
     end
 end
+
 
 exports("DrawText3D", function(data) return LGF:DrawText3D(data) end)
 exports("RequestEntityModel", function(model, timeout) return LGF:RequestEntityModel(model, timeout) end)
