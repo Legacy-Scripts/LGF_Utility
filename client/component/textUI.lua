@@ -16,7 +16,7 @@ function TEXTUI:OpenTextUI(data)
     local message = data.message
     local colorProgress = data.colorProgress or "rgba(54, 156, 129, 0.381)"
     local keyBind = data.keyBind or ""
-    local position = data.position or "center"
+    local position = data.position or "center-right"
     local useKeybind = data.useKeybind or false
     local useProgress = data.useProgress or false
     local title = data.title
@@ -47,12 +47,8 @@ function TEXTUI:GetStateTextUI()
 end
 
 exports('OpenTextUI', function(data)
-    if TEXTUI:GetStateTextUI() then
-        return
-    else
-        TEXTUI:OpenTextUI(data)
-        _G.isUIOpen = true
-    end
+    TEXTUI:OpenTextUI(data)
+    _G.isUIOpen = true
 end)
 
 exports('GetStateTextUI', function()
@@ -62,3 +58,5 @@ end)
 exports('CloseTextUI', function()
     return TEXTUI:HideTextUI()
 end)
+
+

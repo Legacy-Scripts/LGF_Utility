@@ -11,7 +11,8 @@ local function CanOpenContext()
 end
 
 function NUI:showNui(action, menuID, show)
-  SetNuiFocus(show, show)
+  print(show, show)
+  SetNuiFocus(true, true)
   SendNUIMessage({ action = action, data = { menuID = menuID, visible = show } })
   if action == 'CreateMenuContext' then
     _G.isUIOpen = true
@@ -33,23 +34,27 @@ function NUI:isUIOpen()
 end
 
 exports('ShowContextMenu', function(menuID, shouldShow) return NUI:showNui('CreateMenuContext', menuID, shouldShow) end)
+
 exports('ForceCloseContext', function()
   NUI:showNui('CreateMenuContext', nil, false)
   _G.isUIOpen = false
 end)
+
 exports('CloseContext', function(menuID)
   NUI:showNui('CreateMenuContext', menuID, false)
   _G.isUIOpen = false
 end)
-exports('IsUiOpen', function() return NUI:isUIOpen() end)
+
+
+exports('GetContextState', function() return NUI:isUIOpen() end)
 exports('CanOpenContext', CanOpenContext)
 
 --[[
-    exports['LGF_UI']:ShowContextMenu(menuID, show)
-    exports['LGF_UI']:IsUiOpen()
-    exports['LGF_UI']:RegisterContextMenu(menuID, menuTitle, data)
-    exports['LGF_UI']:CloseContext(menuID)
-    exports['LGF_UI']:ForceCloseContext()
-    exports['LGF_UI']:CanOpenContext()
+    exports['LGF_Utility']:ShowContextMenu(menuID, show)
+    exports['LGF_Utility']:IsUiOpen()
+    exports['LGF_Utility']:RegisterContextMenu(menuID, menuTitle, data)
+    exports['LGF_Utility']:CloseContext(menuID)
+    exports['LGF_Utility']:ForceCloseContext()
+    exports['LGF_Utility']:CanOpenContext()
     LocalPlayer.state.ContextOpen
 ]]

@@ -12,6 +12,8 @@ function LGF.Core:GetPlayer()
         return obj.GetPlayerData()
     elseif frameworkName == "qbx_core" then
         return exports.qbx_core:GetPlayerData()
+    elseif frameworkNam == "qb-core" then
+        return obj.Functions.GetPlayerData()
     else
         ERR_CORE(frameworkName)
     end
@@ -22,9 +24,11 @@ function LGF.Core:GetJob()
     if frameworkName == "LEGACYCORE" then
         return playerData.JobName
     elseif frameworkName == "es_extended" then
-        return playerData.job and playerData.job.name or "Unknown"
+        return playerData.job and playerData.job.name
     elseif frameworkName == "qbx_core" then
-        return playerData.job and playerData.job.name or "Unknown"
+        return playerData.job and playerData.job.name
+    elseif frameworkNam == "qb-core" then
+        return playerData.job and playerData.job.name
     else
         ERR_CORE(frameworkName)
     end
@@ -36,7 +40,7 @@ function LGF.Core:GetName()
         return string.format("%s", playerData.playerName)
     elseif frameworkName == "es_extended" then
         return string.format("%s %s", playerData.firstName, playerData.lastName)
-    elseif frameworkName == "qbx_core" then
+    elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
         return string.format("%s %s", playerData.charinfo.firstname, playerData.charinfo.lastname)
     else
         ERR_CORE(frameworkName)
@@ -50,7 +54,7 @@ function LGF.Core:GetIdentifier()
             return PlayerData.identifier
         elseif frameworkName == "es_extended" then
             return PlayerData.identifier
-        elseif frameworkName == "qbx_core" then
+        elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
             return PlayerData.license
         end
     end
@@ -62,7 +66,7 @@ function LGF.Core:GetGender()
         return PlayerData.sex
     elseif frameworkName == "es_extended" then
         return PlayerData.sex
-    elseif frameworkName == "qbx_core" then
+    elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
         return PlayerData.charinfo.gender
     end
 end

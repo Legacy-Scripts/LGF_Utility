@@ -20,7 +20,8 @@ function LGF:LuaLoader(module_name, resource)
     local file_content = LoadResourceFile(resource_name, file_name)
 
     if not file_content then
-        error(string.format("Error loading file '%s' from resource '%s': File does not exist or cannot be read.",file_name, resource_name))
+        error(string.format("Error loading file '%s' from resource '%s': File does not exist or cannot be read.",
+            file_name, resource_name))
     end
 
     local func, compile_err = load(file_content, "@" .. file_name)
@@ -41,6 +42,7 @@ local Framework = {
     { ResourceName = "LEGACYCORE",  Object = "GetCoreData" },
     { ResourceName = "es_extended", Object = "getSharedObject" },
     { ResourceName = "qbx_core",    Object = "GetCoreObject" },
+    { ResourceName = "qb-core",     Object = "GetCoreObject" },
 }
 
 
@@ -61,7 +63,6 @@ function LGF:GetFramework()
 end
 
 if LGF:GetContext() == "client" then
-
     function LGF.Player:Ped()
         return PlayerPedId()
     end
@@ -77,7 +78,6 @@ if LGF:GetContext() == "client" then
     function LGF.Player:Coords()
         return GetEntityCoords(self:Ped())
     end
-    
 end
 
 

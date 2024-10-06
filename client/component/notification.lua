@@ -29,8 +29,7 @@ local function showNotification(data)
 end
 
 
-RegisterNetEvent('LGF_UI:SendNotification', function(data)
-    print(json.encode(data))
+RegisterNetEvent('LGF_Utility:SendNotification', function(data)
     showNotification({
         id = data.id,
         title = data.title,
@@ -46,7 +45,7 @@ exports('SendNotification', showNotification)
 
 -- Example usage:
 --[[
-    TriggerEvent('LGF_UI:SendNotification', {
+    TriggerEvent('LGF_Utility:SendNotification', {
         id = "progress1",
         title = "Processing",
         message = "Your request is being processed.",
@@ -55,7 +54,7 @@ exports('SendNotification', showNotification)
         position = 'top-right'
     })
 
-    exports['LGF_UI']:SendNotification({
+    exports['LGF_Utility']:SendNotification({
         id = "example1",
         title = "Hello",
         message = 'This is a notification example.',

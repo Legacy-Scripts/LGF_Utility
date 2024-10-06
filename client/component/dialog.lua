@@ -103,7 +103,6 @@ local function registerDialog(dialogID, dialogTitle, cards)
 end
 
 function OpenDialog(data)
-    if _G.isUIOpen then return end
 
     SetNuiFocus(true, true)
     local dialogID = data.id
@@ -192,6 +191,7 @@ local function GetStateDialog()
 end
 
 exports('RegisterDialog', function(data)
+    print("dwadwadwa")
     _G.isUIOpen = true
     return OpenDialog(data)
 end)

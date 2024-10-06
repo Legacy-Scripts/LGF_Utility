@@ -7,7 +7,12 @@ end
 
 local function getDirectionFromCameraRotation(cameraRotation)
     local radians = { x = math.rad(cameraRotation.x), y = math.rad(cameraRotation.y), z = math.rad(cameraRotation.z) }
-    return { x = -math.sin(radians.z) * math.abs(math.cos(radians.x)),y = math.cos(radians.z) * math.abs(math.cos(radians.x)), z = math.sin(radians.x) }
+    return {
+        x = -math.sin(radians.z) * math.abs(math.cos(radians.x)),
+        y = math.cos(radians.z) *
+            math.abs(math.cos(radians.x)),
+        z = math.sin(radians.x)
+    }
 end
 
 function LGF.RaycastHandler:performRaycast(maxDistance, drawMarker, drawLine)
@@ -22,31 +27,37 @@ function LGF.RaycastHandler:performRaycast(maxDistance, drawMarker, drawLine)
         z = chestPosition.z + direction.z * maxDistance
     }
 
-    local rayHandle = StartShapeTestRay(chestPosition.x, chestPosition.y, chestPosition.z, raycastDestination.x,
-        raycastDestination.y, raycastDestination.z, -1, playerPed, 0)
+    local rayHandle = StartShapeTestRay(chestPosition.x, chestPosition.y, chestPosition.z,raycastDestination.x, raycastDestination.y, raycastDestination.z, 511, playerPed, 0)
+
     local success, hit, hitCoordinates, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
 
-    local lineColor, markerColor
-    if hit and (IsEntityAVehicle(entityHit) or IsEntityAPed(entityHit) or IsEntityAnObject(entityHit)) then
-        lineColor = { r = 255, g = 0, b = 0, a = 255 }
-        markerColor = { r = 255, g = 0, b = 0, a = 100 }
+    if hit then
+        if IsEntityAVehicle(entityHit) or IsEntityAPed(entityHit) or IsEntityAnObject(entityHit) then
+            if drawMarker and hitCoordinates then
+                DrawMarker(28, hitCoordinates.x, hitCoordinates.y, hitCoordinates.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 255, 0, 0, 100, false, true, 2, nil, nil, false)
+            end
 
-        if drawMarker then
-            DrawMarker(28, hitCoordinates.x, hitCoordinates.y, hitCoordinates.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1,
-                0.1, markerColor.r, markerColor.g, markerColor.b, markerColor.a, false, true, 2, nil, nil, false)
+            if drawLine and hitCoordinates then
+                self:drawLine(chestPosition, hitCoordinates, { r = 255, g = 0, b = 0, a = 255 })
+            end
+            return true, entityHit, hitCoordinates, surfaceNormal
+        else
+            if drawMarker and hitCoordinates then
+                DrawMarker(28, hitCoordinates.x, hitCoordinates.y, hitCoordinates.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1,   0, 255, 0, 100, false, true, 2, nil, nil, false) 
+            end
+
+            if drawLine and hitCoordinates then
+                self:drawLine(chestPosition, hitCoordinates, { r = 0, g = 255, b = 0, a = 255 })
+            end
+
+            return true, nil, hitCoordinates, surfaceNormal
         end
-
-        if drawLine then
-            self:drawLine(chestPosition, hitCoordinates, lineColor)
-        end
-
-        return hit, entityHit, hitCoordinates, surfaceNormal
     end
 
-    lineColor = { r = 0, g = 255, b = 0, a = 255 }
     if drawLine then
-        self:drawLine(chestPosition, raycastDestination, lineColor)
+        self:drawLine(chestPosition, raycastDestination, { r = 0, g = 255, b = 0, a = 255 })
     end
+
     return false, nil, raycastDestination, nil
 end
 
@@ -73,9 +84,15 @@ function LGF.RaycastHandler:performTargetPlayer(distanceMax, markerType, drawLin
         local hit, entityHit, hitCoordinates = LGF.RaycastHandler:performRaycast(distanceMax, false, drawLine)
 
         if hit and entityHit == closestPlayer then
-            local markerPosition = { x = GetEntityCoords(closestPlayer).x, y = GetEntityCoords(closestPlayer).y, z = GetEntityCoords(closestPlayer).z + 1.5 }
-            DrawMarker(markerType, markerPosition.x, markerPosition.y, markerPosition.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.5, 1.5, 0.5, 255, 128, 0, 50, true, true, 2, nil, nil, false)
-            return GetEntityCoords(closestPlayer), closestPlayer, GetPlayerServerId(NetworkGetPlayerIndexFromPed(closestPlayer))
+            local markerPosition = {
+                x = GetEntityCoords(closestPlayer).x,
+                y = GetEntityCoords(closestPlayer).y,
+                z = GetEntityCoords(closestPlayer).z + 1.5
+            }
+            DrawMarker(markerType, markerPosition.x, markerPosition.y, markerPosition.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0,
+                0.5, 1.5, 0.5, 255, 128, 0, 50, true, true, 2, nil, nil, false)
+            return GetEntityCoords(closestPlayer), closestPlayer,
+                GetPlayerServerId(NetworkGetPlayerIndexFromPed(closestPlayer))
         end
     end
 

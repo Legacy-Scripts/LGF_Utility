@@ -49,6 +49,6 @@ function LGF:DrawText3D(data)
     end
 end
 
-
 exports("DrawText3D", function(data) return LGF:DrawText3D(data) end)
+
 exports("RequestEntityModel", function(model, timeout) return LGF:RequestEntityModel(model, timeout) end)

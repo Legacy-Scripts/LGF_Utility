@@ -104,54 +104,35 @@ function GenerateMainMenu()
     exports['LGF_Utility']:ShowContextMenu('main_menu', true)
 end
 
-exports.ox_target:addGlobalVehicle({
-    {
-
-        icon = 'fa-solid fa-car',
-        label = 'Debug Vehicle',
-        onSelect = function()
-            if not exports['LGF_Utility']:CanOpenContext() then return end
-            GenerateMainMenu()
-        end
-    },
+local point = lib.points.new({
+    coords = vec3(-1220.5801, -805.1790, 16.6298),
+    distance = 5,
+    dunak = 'nerd',
 })
 
+function point:onEnter()
+    exports['LGF_Utility']:OpenTextUI({
+        message = "OPEN LIFE STYLE SELECTOR",
+        position = "center-right",
+        useKeybind = true,
+        keyBind = "E",
+        useProgress = false,
+    })
+end
 
+function point:onExit()
+    TEXTUI:HideTextUI()
+end
 
--- [[DIALOG AND TEXT UI]]
-
--- local point = lib.points.new({
---     coords = vec3(-1220.5801, -805.1790, 16.6298),
---     distance = 5,
---     dunak = 'nerd',
--- })
-
--- function point:onEnter()
---     exports['LGF_Utility']:OpenTextUI({
---         message = "[E] - OPEN LIFE STYLE SELECTOR",
---         position = "center-right",
---         useKeybind = false,
---         keyBind = "E",
---         useProgress = true,
---     })
--- end
-
--- function point:onExit()
---     TEXTUI:HideTextUI()
--- end
-
--- function point:nearby()
---     DrawMarker(2, self.coords.x, self.coords.y, self.coords.z, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0, 200, 20, 20,
---         50, false, true, 2, false, nil, nil, false)
-
---     if self.currentDistance < 3 and IsControlJustReleased(0, 38) then
---         OpenDialogTest()
---         exports['LGF_Utility']:CloseTextUI()
---     end
--- end
+function point:nearby()
+    if self.currentDistance < 3 and IsControlJustReleased(0, 38) then
+        OpenDialogTest()
+        exports['LGF_Utility']:CloseTextUI()
+    end
+end
 
 local LifeStyle = {
-    Criminal = {
+    Crimi = {
         ['water'] = 3,
         ['WEAPON_PISTOL'] = 1,
         ['burger'] = 3,
@@ -241,6 +222,11 @@ function OpenDialogTest()
         }
     })
 end
+
+RegisterCommand("dia", function()
+    print("dwa")
+    OpenDialogTest()
+end)
 
 RegisterCommand('testNotifications', function()
     -- Notification 1: Success
@@ -387,5 +373,3 @@ RegisterCommand('progress', function()
         end
     })
 end)
-
-

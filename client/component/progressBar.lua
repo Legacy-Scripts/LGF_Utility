@@ -1,8 +1,6 @@
 PROGRESS = {}
 PROGRESSOPENED = false
-
 LocalPlayer.state.progressOpen = false
-
 local disabledControls = {}
 
 function delay(ms)
