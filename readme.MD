@@ -5,7 +5,7 @@
 
 **LGF_Utility** is a versatile library designed to facilitate the development of modules, functions, exports, and UI components within your project. It provides a unified framework for managing various aspects of your application, making it easier to build complex systems and interfaces.
 
-- [Documentation](lgf-docs.vercel.app)
+- [Documentation](https://lgf-docs.vercel.app)
 
 ## Features
 
