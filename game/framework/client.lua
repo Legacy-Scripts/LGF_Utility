@@ -76,7 +76,33 @@ function LGF.Core:GetGroup()
     return response
 end
 
+LocalPlayer.state.IsLoaded = false
+
+if frameworkName == "LEGACYCORE" then
+    AddEventHandler('LegacyCore:PlayerLoaded', function(...)
+        TriggerEvent("LGF_Utility:PlayerLoaded", ...)
+        LocalPlayer.state.IsLoaded = true
+    end)
+elseif frameworkName == "es_extended" then
+    RegisterNetEvent('esx:playerLoaded')
+    AddEventHandler('esx:playerLoaded', function(...)
+        TriggerEvent("LGF_Utility:PlayerLoaded", ...)
+        LocalPlayer.state.IsLoaded = true
+    end)
+elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
+    RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
+    AddEventHandler('QBCore:Client:OnPlayerLoaded', function(...)
+        TriggerEvent("LGF_Utility:PlayerLoaded", ...)
+        LocalPlayer.state.IsLoaded = true
+    end)
+end
+
+function LGF.Core:PlayerLoaded()
+    return LocalPlayer.state.IsLoaded
+end
+
 return {
+    IsLoaded = LGF.Core.PlayerLoaded,
     GetPlayer = LGF.Core.GetPlayer,
     GetPlayerJob = LGF.Core.GetJob,
     GetName = LGF.Core.GetName,
