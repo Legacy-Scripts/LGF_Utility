@@ -78,6 +78,7 @@ end
 
 LocalPlayer.state.IsLoaded = false
 
+
 if frameworkName == "LEGACYCORE" then
     AddEventHandler('LegacyCore:PlayerLoaded', function(...)
         TriggerEvent("LGF_Utility:PlayerLoaded", ...)
@@ -96,6 +97,26 @@ elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
         LocalPlayer.state.IsLoaded = true
     end)
 end
+
+if frameworkName == "LEGACYCORE" then
+    AddEventHandler('LegacyCore:PlayerLogout', function(...)
+        TriggerEvent("LGF_Utility:PlayerUnloaded", ...)
+        LocalPlayer.state.IsLoaded = false
+    end)
+elseif frameworkName == "es_extended" then
+    RegisterNetEvent('esx:onPlayerLogout')
+    AddEventHandler('esx:onPlayerLogout', function(...)
+        TriggerEvent("LGF_Utility:PlayerUnloaded", ...)
+        LocalPlayer.state.IsLoaded = false
+    end)
+elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
+    RegisterNetEvent('QBCore:Client:OnPlayerUnload')
+    AddEventHandler('QBCore:Client:OnPlayerUnload', function(...)
+        TriggerEvent("LGF_Utility:PlayerUnloaded", ...)
+        LocalPlayer.state.IsLoaded = false
+    end)
+end
+
 
 function LGF.Core:PlayerLoaded()
     return LocalPlayer.state.IsLoaded
