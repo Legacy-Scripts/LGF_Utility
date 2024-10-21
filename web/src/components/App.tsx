@@ -8,6 +8,7 @@ import TextUIComponent from "./TextUI";
 import DialogComponent from "./Dialog";
 import ProgressBar from "./ProgressBar";
 import InputComponent from "./Input";
+import Instructional from "./Instructional";
 import "./ContextMenu.scss";
 import "./TextUI.scss";
 import "./Dialog.scss";
@@ -15,7 +16,11 @@ import "./Dialog.scss";
 const App: React.FC = () => {
   const [contextVisible, setContextVisible] = useState(false);
   const [currentMenuID, setCurrentMenuID] = useState<string | null>(null);
+  const [buttonVisible, setButtonVisible] = useState(false);
+  const [binderControls, setBinderControls] = useState<any>({});
+  const [schema, setSchema] = useState<any>({});
 
+  // Handle context menu creation
   useNuiEvent<{ visible: boolean; menuID: string }>(
     "CreateMenuContext",
     ({ visible, menuID }) => {
@@ -24,26 +29,33 @@ const App: React.FC = () => {
     }
   );
 
+  // Handle instructional button display
+  useNuiEvent<any>("openInstructionalButt", (data) => {
+    setButtonVisible(data.visible);
+    setBinderControls(data.controls || {});
+    setSchema(data.schema || {});  // Set schema here, providing a default empty object
+  });
+
+  // Close context menu handler
   const handleCloseContextMenu = () => {
     if (!isEnvBrowser()) {
       fetchNui("UI:CloseContext", {
         name: "CreateMenuContext",
         menuID: currentMenuID,
-      }).then(() => {
-      }).catch((error) => {
+      })
+      .then(() => {})
+      .catch((error) => {
         console.error("Failed to close context menu:", error);
       });
     }
   };
+
+  // Keydown event to handle escape key for closing menus
   useEffect(() => {
     const keyHandler = (e: KeyboardEvent) => {
       if (contextVisible && e.code === "Escape") {
-        if (!isEnvBrowser()) {
-          if (contextVisible) {
-            handleCloseContextMenu()
-          }
-        } else {
-          
+        if (!isEnvBrowser() && contextVisible) {
+          handleCloseContextMenu();
         }
       }
     };
@@ -69,6 +81,11 @@ const App: React.FC = () => {
       <DialogComponent />
       <ProgressBar />
       <InputComponent />
+      <Instructional 
+        visible={buttonVisible} 
+        controls={binderControls} 
+        schema={schema}  
+      />
     </>
   );
 };

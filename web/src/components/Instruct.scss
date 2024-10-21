@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+.Instructional {
+  position: fixed;
+  padding: 10px 14px; 
+  background-color: rgba(20, 20, 20, 0.9); 
+  color: #c6c6c6;
+  border-radius: 10px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+  z-index: 1000; 
+  opacity: 1; 
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  gap: 15px; 
+  width: auto;
+  max-width: 90%;
+}
+
+.Instructional-message {
+  display: flex;
+  align-items: center; 
+  width: 100%;
+}
+
+.Instructional-bind {
+  width: 43px; 
+  height: 40px; 
+  background-color: rgba(54, 156, 129, 0.7);
+  color: white; 
+  border-radius: 6px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-family: 'Poppins', sans-serif; 
+  transition: background-color 0.3s ease;
+}
+
+.Instructional-bind.active {
+  background-color: rgba(54, 156, 129, 1);
+  box-shadow: 0 0 10px rgba(54, 156, 129, 0.8); 
+}
+
+.mouse-icon {
+  width: 40px; 
+  height: 40px; 
+  background-color: rgba(54, 156, 129, 0.5); 
+  border-radius: 6px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.Instructional-message-container {
+  margin-left: 12px; 
+  font-family: 'Poppins', sans-serif; 
+  font-size: 14px; 
+  color: #e0e0e0; 
+}
+
+.Instructional-description {
+  font-size: 12px;
+  color: #b0b0b0; 
+  margin-top: 2px; 
+  width: 200px;
+  max-width: 200px;
+}

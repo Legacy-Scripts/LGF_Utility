@@ -2,8 +2,8 @@ local CurrentResourceName = "LGF_Utility"
 local CurrentResourceVersion = GetResourceMetadata(CurrentResourceName, "version", 0) or "unknown"
 
 function CheckVersion(repoName)
-    local url = ('https://api.github.com/repos/%s/releases/latest'):format(repoName)
-    
+    local url = 'https://api.github.com/repos/' .. repoName .. '/releases/latest'
+
     PerformHttpRequest(url, function(errorCode, resultData, resultHeaders)
         if errorCode == 200 then
             local result = json.decode(resultData)
