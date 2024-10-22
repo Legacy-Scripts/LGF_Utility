@@ -8,7 +8,6 @@ end
 
 function LGF.Core:GetPlayer(target)
     if frameworkName == "LEGACYCORE" then
-        print(json.encode(obj))
         return obj.DATA:GetPlayerDataBySlot(target)
     elseif frameworkName == "es_extended" then
         return obj.GetPlayerFromId(target)
