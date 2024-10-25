@@ -41,7 +41,6 @@ end
 local Framework = {
     { ResourceName = "LEGACYCORE",  Object = "GetCoreData" },
     { ResourceName = "es_extended", Object = "getSharedObject" },
-    { ResourceName = "qbx_core",    Object = "GetCoreObject" },
     { ResourceName = "qb-core",     Object = "GetCoreObject" },
 }
 

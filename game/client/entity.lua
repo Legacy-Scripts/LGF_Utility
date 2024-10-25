@@ -51,11 +51,12 @@ function LGF:CreateEntityObject(data)
     local position = data.position
     local isNetworked = data.isNetworked or false
     local freeze = data.freeze or false
+    local missionEntity = data.missionEntity or false
 
     local loaded, modelHash = self:RequestEntityModel(model, 3000)
     if not loaded then return end
 
-    local createdObject = CreateObject(modelHash, position.x, position.y, position.z, isNetworked, true, false)
+    local createdObject = CreateObject(modelHash, position.x, position.y, position.z, isNetworked, missionEntity, false)
     SetEntityHeading(createdObject, position.w)
     PlaceObjectOnGroundProperly(createdObject)
     SetModelAsNoLongerNeeded(modelHash)

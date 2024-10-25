@@ -10,9 +10,7 @@ function LGF.Core:GetPlayer()
         return obj.DATA:GetPlayerObject() or LocalPlayer.state.GetPlayerObject
     elseif frameworkName == "es_extended" then
         return obj.GetPlayerData()
-    elseif frameworkName == "qbx_core" then
-        return exports.qbx_core:GetPlayerData()
-    elseif frameworkNam == "qb-core" then
+    elseif frameworkName == "qb-core" then
         return obj.Functions.GetPlayerData()
     else
         ERR_CORE(frameworkName)
@@ -25,9 +23,7 @@ function LGF.Core:GetJob()
         return playerData.JobName
     elseif frameworkName == "es_extended" then
         return playerData.job and playerData.job.name
-    elseif frameworkName == "qbx_core" then
-        return playerData.job and playerData.job.name
-    elseif frameworkNam == "qb-core" then
+    elseif frameworkName == "qb-core" then
         return playerData.job and playerData.job.name
     else
         ERR_CORE(frameworkName)
@@ -40,7 +36,7 @@ function LGF.Core:GetName()
         return string.format("%s", playerData.playerName)
     elseif frameworkName == "es_extended" then
         return string.format("%s %s", playerData.firstName, playerData.lastName)
-    elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
+    elseif frameworkName == "qb-core" then
         return string.format("%s %s", playerData.charinfo.firstname, playerData.charinfo.lastname)
     else
         ERR_CORE(frameworkName)
@@ -54,7 +50,7 @@ function LGF.Core:GetIdentifier()
             return PlayerData.identifier
         elseif frameworkName == "es_extended" then
             return PlayerData.identifier
-        elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
+        elseif frameworkName == "qb-core" then
             return PlayerData.license
         end
     end
@@ -66,7 +62,7 @@ function LGF.Core:GetGender()
         return PlayerData.sex
     elseif frameworkName == "es_extended" then
         return PlayerData.sex
-    elseif frameworkName == "qbx_core" or frameworkName == "qb-core" then
+    elseif frameworkName == "qb-core" then
         return PlayerData.charinfo.gender
     end
 end
@@ -74,6 +70,18 @@ end
 function LGF.Core:GetGroup()
     local response = LGF:TriggerServerCallback("LGF_Utility:Bridge:GetPlayerGroup")
     return response
+end
+
+function LGF.Core:GetPlayerAccount()
+    if frameworkName == "LEGACYCORE" then
+        local promise = obj.DATA:GetPlayerMetadata('accounts')
+        local Decoded = json.decode(promise)
+        return { Bank = Decoded.Bank, Cash = Decoded.money }
+    elseif frameworkName == "es_extended" then
+
+    elseif frameworkName == "qb-core" then
+
+    end
 end
 
 LocalPlayer.state.IsLoaded = false
