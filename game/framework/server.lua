@@ -60,6 +60,17 @@ function LGF.Core:GetName(target)
     end
 end
 
+function LGF.Core:GetGender(target)
+    local PlayerData = LGF.Core:GetPlayer(target)
+    if frameworkName == "LEGACYCORE" then
+        return PlayerData.sex
+    elseif frameworkName == "es_extended" then
+        return PlayerData.sex
+    elseif frameworkName == "qb-core" then
+        return PlayerData.charinfo.gender
+    end
+end
+
 function LGF.Core:GetPlayerAccount(target)
     if frameworkName == "LEGACYCORE" then
         local promise = obj.DATA:GetPlayerAccount(target)
@@ -80,12 +91,10 @@ LGF:RegisterServerCallback('LGF_Utility:Bridge:GetPlayerGroup', function(source)
 end)
 
 function LGF.Core:ManageAccount(target, amount, typetransition)
+    if type(amount) == "string" then amount = tonumber(amount) end
 
-    if type(amount) == "string" then 
-        amount = tonumber(amount) 
-    end
     if frameworkName == "LEGACYCORE" then
-        local PlayerSlot =  LGF.Core:GetPlayer(target).charIdentifier
+        local PlayerSlot = LGF.Core:GetPlayer(target).charIdentifier
         local PlayerData = LGF.Core:GetPlayer(target)
         local accountsData = json.decode(PlayerData.accounts)
 
@@ -95,13 +104,11 @@ function LGF.Core:ManageAccount(target, amount, typetransition)
             accountsData.Bank = math.max(0, (accountsData.Bank or 0) - amount)
         end
 
-        local updatedAccounts = json.encode(accountsData)
-        local updatePromise, updateError = MySQL.update.await( 'UPDATE `users` SET `accounts` = ? WHERE `identifier` = ? AND `charIdentifier` = ?', { updatedAccounts, PlayerData.identifier, PlayerSlot }
-        )
-        if updateError then
-            print('Error updating LEGACYCORE account:', updateError)
-        end
 
+        local updatedAccounts = json.encode(accountsData)
+        local updatePromise, updateError = MySQL.update.await(
+            'UPDATE `users` SET `accounts` = ? WHERE `identifier` = ? AND `charIdentifier` = ?',
+            { updatedAccounts, PlayerData.identifier, PlayerSlot })
     elseif frameworkName == "es_extended" then
         local xPlayer = ESX.GetPlayerFromId(target)
         if xPlayer then
@@ -111,7 +118,6 @@ function LGF.Core:ManageAccount(target, amount, typetransition)
                 xPlayer.removeAccountMoney('bank', amount)
             end
         end
-
     elseif frameworkName == "qb-core" then
         local player = QBCore.Functions.GetPlayer(target)
         if player then
@@ -124,7 +130,61 @@ function LGF.Core:ManageAccount(target, amount, typetransition)
     end
 end
 
+function LGF.Core:GetJob(target)
+    local playerData = LGF.Core:GetPlayer(target)
+    if frameworkName == "LEGACYCORE" then
+        return playerData.JobName
+    elseif frameworkName == "es_extended" then
+        return playerData.job and playerData.job.name
+    elseif frameworkName == "qb-core" then
+        return playerData.job and playerData.job.label
+    else
+        ERR_CORE(frameworkName)
+    end
+end
+
+function LGF.Core:generatePlate(maxLetters, pattern)
+    local tableName = frameworkName == "es_extended" and "owned_vehicles"
+        or frameworkName == "qb-core" and "player_vehicles"
+        or frameworkName == "LEGACYCORE" and "owned_vehicles"
+
+    if not tableName then
+        print("Error: Unsupported framework or table not found.")
+        return nil
+    end
+
+    local plate
+
+    repeat
+        plate = LGF.string:RandStr(maxLetters, pattern)
+
+        local query = ('SELECT plate FROM %s WHERE plate = ? LIMIT 1'):format(tableName)
+        local plateExists = MySQL.scalar.await(query, { plate })
+    until not plateExists
+
+    return plate
+end
+
+function LGF.Core:giveVehicle(target, props,stored)
+
+    local plate = props.plate
+    local playerData = LGF.Core:GetPlayer(target)
+    local identifier = LGF.Core:GetIdentifier(target)
+
+    if frameworkName == "es_extended" then
+        MySQL.insert('INSERT INTO `owned_vehicles` (owner, plate, vehicle, stored) VALUES (?, ?, ?, ?)',{ identifier, plate, json.encode(props), stored })
+    elseif frameworkName == "qb-core" then
+        MySQL.insert( 'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', { identifier, playerData.citizenid, props.model, GetHashKey(props.model), json.encode(props), plate, stored, "A" })
+    elseif frameworkName == "LEGACYCORE" then
+        MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle, garage, stored) VALUES (?, ?, ?, ?,?)', { identifier, plate, json.encode(props), "A",stored })
+    else
+        print("Error: Unsupported framework:", frameworkName)
+    end
+end
+
 return {
+    GiveVehicle = LGF.Core.giveVehicle,
+    GeneratePlate = LGF.Core.generatePlate,
     GetName = LGF.Core.GetName,
     GetPlayer = LGF.Core.GetPlayer,
     GetGroup = LGF.Core.GetGroup,

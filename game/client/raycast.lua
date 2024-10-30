@@ -98,3 +98,4 @@ function LGF.RaycastHandler:performTargetPlayer(distanceMax, markerType, drawLin
 
     return nil, nil, nil
 end
+

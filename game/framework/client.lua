@@ -130,6 +130,10 @@ function LGF.Core:PlayerLoaded()
     return LocalPlayer.state.IsLoaded
 end
 
+RegisterNetEvent("LGF_Utility:PlayerLoaded", function(...)
+    local argss = { ... }
+end)
+
 return {
     IsLoaded = LGF.Core.PlayerLoaded,
     GetPlayer = LGF.Core.GetPlayer,
