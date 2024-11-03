@@ -30,6 +30,19 @@ function LGF.Core:GetJob()
     end
 end
 
+function LGF.Core:GetJobGrade()
+    local playerData = LGF.Core:GetPlayer()
+    if frameworkName == "LEGACYCORE" then
+        return playerData.JobGrade
+    elseif frameworkName == "es_extended" then
+        return playerData.job and playerData.job.grade
+    elseif frameworkName == "qb-core" then
+        return playerData.job and playerData.job.grade
+    else
+        ERR_CORE(frameworkName)
+    end
+end
+
 function LGF.Core:GetName()
     local playerData = LGF.Core:GetPlayer()
     if frameworkName == "LEGACYCORE" then
