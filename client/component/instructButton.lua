@@ -24,7 +24,6 @@ local function handleKeyBindReleased(keyBind)
 end
 
 
-
 local function loop(controls)
     while LocalPlayer.state.instructOpened do
         Wait(0)
