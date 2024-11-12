@@ -94,7 +94,6 @@ interface ContextMenuItem {
 interface ContextMenuProps {
   visible: boolean;
   menuID: string;
-  onClose: () => void;
 }
 
 interface MenuData {
@@ -120,11 +119,7 @@ const CenterMapOnLoad: React.FC<{
   return null;
 };
 
-const ContextMenu: React.FC<ContextMenuProps> = ({
-  visible,
-  menuID,
-  onClose,
-}) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({ visible, menuID }) => {
   const [menuData, setMenuData] = useState<MenuData | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const theme = useMantineTheme();
@@ -140,8 +135,6 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
         }
       };
       fetchData();
-    } else {
-      setMenuData(null);
     }
   }, [visible, menuID]);
 
@@ -161,6 +154,13 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   };
 
   const bounds = L.latLngBounds(L.latLng(-65, -180), L.latLng(85, 0.0));
+
+  const handleClose = () => {
+    fetchNui("UI:CloseContext", { name: "CreateMenuContext", menuID: menuID });
+    setTimeout(() => {
+      setMenuData(null);
+    }, 2000);
+  };
 
   return (
     <Transition
@@ -211,7 +211,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
             <ActionIcon
               color="red"
               className="close-button"
-              onClick={onClose}
+              onClick={handleClose}
               title="Close Menu"
               style={{
                 position: "absolute",
@@ -457,18 +457,21 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
                                   marker.position[0] === 0 &&
                                   marker.position[1] === 0
                                 ) {
-                                  return null; 
+                                  return null;
                                 }
 
                                 return (
                                   <Marker
                                     key={idx}
                                     icon={L.icon({
-                                      iconUrl: marker.icon || "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+                                      iconUrl:
+                                        marker.icon ||
+                                        "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
                                       iconSize: [60, 60],
                                       iconAnchor: [12, 41],
                                       popupAnchor: [1, -34],
-                                      shadowUrl:"https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+                                      shadowUrl:
+                                        "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
                                       shadowSize: [41, 41],
                                     })}
                                     position={gameToMap(

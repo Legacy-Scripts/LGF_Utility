@@ -55,7 +55,7 @@ function VehicleMonitor:startMonitoring(instance)
                 end
             end
 
-            Wait(100)
+            Wait(1000)
         end
     end)
 end

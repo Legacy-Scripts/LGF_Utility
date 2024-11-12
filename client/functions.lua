@@ -12,20 +12,17 @@ end
 
 function NUI:showNui(action, menuID, show)
   print(show, show)
-  SetNuiFocus(true, true)
+  SetNuiFocus(show, show)
   SendNUIMessage({ action = action, data = { menuID = menuID, visible = show } })
   if action == 'CreateMenuContext' then
-    _G.isUIOpen = true
-    LocalPlayer.state.contextOpened = true
+    _G.isUIOpen = show
+    LocalPlayer.state.contextOpened = show
   end
 end
 
 RegisterNuiCallback('UI:CloseContext', function(data, cb)
-  print(json.encode(data))
-  SetNuiFocus(false, false)
-  SendNUIMessage({ action = "CreateMenuContext", data = { menuID = data.menuID, visible = false } })
-  _G.isUIOpen = false
-  LocalPlayer.state.contextOpened = false
+  NUI:showNui(data.name, data.menuID, false)
+  print(json.encode(data, { indent = true }))
   cb(true)
 end)
 

@@ -20,7 +20,6 @@ const App: React.FC = () => {
   const [binderControls, setBinderControls] = useState<any>({});
   const [schema, setSchema] = useState<any>({});
 
-  // Handle context menu creation
   useNuiEvent<{ visible: boolean; menuID: string }>(
     "CreateMenuContext",
     ({ visible, menuID }) => {
@@ -29,14 +28,12 @@ const App: React.FC = () => {
     }
   );
 
-  // Handle instructional button display
   useNuiEvent<any>("openInstructionalButt", (data) => {
     setButtonVisible(data.visible);
     setBinderControls(data.controls || {});
-    setSchema(data.schema || {});  // Set schema here, providing a default empty object
+    setSchema(data.schema || {});
   });
 
-  // Close context menu handler
   const handleCloseContextMenu = () => {
     if (!isEnvBrowser()) {
       fetchNui("UI:CloseContext", {
@@ -50,11 +47,10 @@ const App: React.FC = () => {
     }
   };
 
-  // Keydown event to handle escape key for closing menus
   useEffect(() => {
     const keyHandler = (e: KeyboardEvent) => {
       if (contextVisible && e.code === "Escape") {
-        if (!isEnvBrowser() && contextVisible) {
+        if (!isEnvBrowser()) {
           handleCloseContextMenu();
         }
       }
@@ -69,22 +65,16 @@ const App: React.FC = () => {
 
   return (
     <>
-      {contextVisible && currentMenuID && (
-        <ContextMenu
-          visible={contextVisible}
-          menuID={currentMenuID}
-          onClose={handleCloseContextMenu}
-        />
-      )}
+      <ContextMenu visible={contextVisible} menuID={currentMenuID} />
       <NotificationComponent />
       <TextUIComponent />
       <DialogComponent />
       <ProgressBar />
       <InputComponent />
-      <Instructional 
-        visible={buttonVisible} 
-        controls={binderControls} 
-        schema={schema}  
+      <Instructional
+        visible={buttonVisible}
+        controls={binderControls}
+        schema={schema}
       />
     </>
   );

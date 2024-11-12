@@ -104,7 +104,6 @@ function LGF.Core:ManageAccount(target, amount, typetransition)
             accountsData.Bank = math.max(0, (accountsData.Bank or 0) - amount)
         end
 
-
         local updatedAccounts = json.encode(accountsData)
         local updatePromise, updateError = MySQL.update.await(
             'UPDATE `users` SET `accounts` = ? WHERE `identifier` = ? AND `charIdentifier` = ?',
@@ -165,18 +164,22 @@ function LGF.Core:generatePlate(maxLetters, pattern)
     return plate
 end
 
-function LGF.Core:giveVehicle(target, props,stored)
-
+function LGF.Core:giveVehicle(target, props, stored)
     local plate = props.plate
     local playerData = LGF.Core:GetPlayer(target)
     local identifier = LGF.Core:GetIdentifier(target)
 
     if frameworkName == "es_extended" then
-        MySQL.insert('INSERT INTO `owned_vehicles` (owner, plate, vehicle, stored) VALUES (?, ?, ?, ?)',{ identifier, plate, json.encode(props), stored })
+        MySQL.insert('INSERT INTO `owned_vehicles` (owner, plate, vehicle, stored) VALUES (?, ?, ?, ?)',
+            { identifier, plate, json.encode(props), stored })
     elseif frameworkName == "qb-core" then
-        MySQL.insert( 'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', { identifier, playerData.citizenid, props.model, GetHashKey(props.model), json.encode(props), plate, stored, "A" })
+        MySQL.insert(
+        'INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            { identifier, playerData.citizenid, props.model, GetHashKey(props.model), json.encode(props), plate, stored,
+                "A" })
     elseif frameworkName == "LEGACYCORE" then
-        MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle, garage, stored) VALUES (?, ?, ?, ?,?)', { identifier, plate, json.encode(props), "A",stored })
+        MySQL.insert('INSERT INTO owned_vehicles (owner, plate, vehicle, garage, stored) VALUES (?, ?, ?, ?,?)',
+            { identifier, plate, json.encode(props), "A", stored })
     else
         print("Error: Unsupported framework:", frameworkName)
     end

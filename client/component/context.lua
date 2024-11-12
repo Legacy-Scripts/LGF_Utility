@@ -34,13 +34,13 @@ local function registerMenu(menuID, menuTitle, items)
     end
 
     CONTEXT_MENUS[menuID] = MenuMetaTable.new(menuID, menuTitle, items)
-    print('Registered menu:', menuID, menuTitle)
     _G.isUIOpen = true
 end
 
 RegisterNuiCallback('LGF_UI.GetContextData', function(data, cb)
     local menuID = data.menuID
     local menuData = CONTEXT_MENUS[menuID]
+
     if menuData then
         cb({
             id = menuData.id,
@@ -57,6 +57,7 @@ RegisterNuiCallback('menu:ItemSelected', function(data, cb)
     if menu then
         local itemIndex = tonumber(data.itemIndex) + 1
         local success = menu:selectItem(itemIndex)
+
         cb(success)
     else
         cb(false)
@@ -65,4 +66,3 @@ end)
 
 
 exports('RegisterContextMenu', registerMenu)
-
