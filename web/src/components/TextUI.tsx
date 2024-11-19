@@ -100,13 +100,13 @@ const TextUIComponent: React.FC = () => {
             {textUI.title}
           </Title>
         )}
-        <div className="textui-message" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+        <div className="textui-message">
           {textUI.useKeybind && textUI.keyBind && (
             <div className="textui-bind">
               {textUI.keyBind}
             </div>
           )}
-          <div className="textui-message-container" style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+          <div className="textui-message-container">
             {textUI.useProgress ? (
               <Loader
                 size="md"
@@ -119,7 +119,6 @@ const TextUIComponent: React.FC = () => {
               style={{ 
                 overflowWrap: "break-word", 
                 flex: 1, 
-                marginLeft: "10px",
                 fontFamily: 'Poppins, sans-serif',
                 fontWeight: 200, 
               }}

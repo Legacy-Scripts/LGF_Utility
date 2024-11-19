@@ -121,7 +121,7 @@ function point:onEnter()
 end
 
 function point:onExit()
-    TEXTUI:HideTextUI()
+    exports['LGF_Utility']:CloseTextUI()
 end
 
 function point:nearby()
