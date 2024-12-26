@@ -144,6 +144,8 @@ function LGF.Core:PlayerLoaded()
     return LocalPlayer.state.IsLoaded
 end
 
+
+
 return {
     IsLoaded = LGF.Core.PlayerLoaded,
     GetPlayer = LGF.Core.GetPlayer,
