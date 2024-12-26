@@ -101,6 +101,7 @@ LocalPlayer.state.IsLoaded = false
 
 
 if frameworkName == "LEGACYCORE" then
+    RegisterNetEvent('LegacyCore:PlayerLoaded')
     AddEventHandler('LegacyCore:PlayerLoaded', function(...)
         TriggerEvent("LGF_Utility:PlayerLoaded", ...)
         LocalPlayer.state.IsLoaded = true
@@ -142,10 +143,6 @@ end
 function LGF.Core:PlayerLoaded()
     return LocalPlayer.state.IsLoaded
 end
-
-RegisterNetEvent("LGF_Utility:PlayerLoaded", function(...)
-    local argss = { ... }
-end)
 
 return {
     IsLoaded = LGF.Core.PlayerLoaded,
