@@ -91,7 +91,12 @@ function LGF.Core:GetPlayerAccount()
         local Decoded = json.decode(promise)
         return { Bank = Decoded.Bank, Cash = Decoded.money }
     elseif frameworkName == "es_extended" then
-
+        local accounts = obj.PlayerData.accounts
+        local values = {}
+        for i = 1, #accounts do
+            values[accounts.name] = accounts.money
+        end
+        return values
     elseif frameworkName == "qb-core" then
 
     end
@@ -154,4 +159,5 @@ return {
     GetIdentifier = LGF.Core.GetIdentifier,
     GetGender = LGF.Core.GetGender,
     GetGroup = LGF.Core.GetGroup,
+    GetAccount = LGF.Core.GetPlayerAccount
 }
