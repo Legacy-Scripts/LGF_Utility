@@ -76,7 +76,12 @@ function LGF.Core:GetPlayerAccount(target)
         local promise = obj.DATA:GetPlayerAccount(target)
         return promise
     elseif frameworkName == "es_extended" then
-
+        local player = self.GetPlayer(target)
+        local values = {}
+        for i =1 , #player.accounts do
+            values[player.accounts[i].name] = player.accounts[i].money
+        end
+        return values
     elseif frameworkName == "qb-core" then
 
     end
